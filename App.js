@@ -1,26 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import SplashScreen from './Components/SplashScreen';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { SafeAreaViewComponent, StyleSheet, Text, View } from 'react-native';
+import LogIn from "./Components/LogIn";
+import Register from "./Components/Register";
+import DashBoard from "./Components/DashBoard";
+import Home from './Components/Home';
+import Settings from './Components/Settings';
+import Appointments from './Components/Appointments';
 
+const Stack = createNativeStackNavigator();
 
-export default function App() {
-  
+export default function App(){
   return (
-    
-      <SafeAreaProvider>
-          <SplashScreen> </SplashScreen>
-      </SafeAreaProvider>
-    
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown:false}}>
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Appointments" component={Appointments} />
+        
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
