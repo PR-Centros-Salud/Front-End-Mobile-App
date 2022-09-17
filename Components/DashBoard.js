@@ -1,5 +1,10 @@
 import React from 'react';
-import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView, Dimensions, TextInput} from 'react-native';
+import { SearchBar } from 'react-native-screens';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+
+
 
 const FindScreen = ({navigation}) => {
     return(
@@ -14,34 +19,55 @@ const FindScreen = ({navigation}) => {
                     </Text>
                     
                 </View>
+                
+                
                 <Image
                     source={require('../assets/userPictures/lady.png')}
                     resizeMode='contain'
-                    style={{
-                        borderRadius:50,
-                        width: 70,
-                        height: 70,
-                        marginRight:10
-                    }}
+                    style={styles.right}
                   />
             </View>
             
             <ScrollView style={styles.scrollV}>
                 
-                <Text style={styles.subText}>¿Qué te trae de nuevo por acá?</Text>
+                <Text style={styles.subText}>¿Qué te trae de {"\n"} nuevo por acá?</Text>
 
-                <View style={styles.optionsContainer}>
-                    <Image source={require('../assets/Icons/medicine.png')}
-                    resizeMode='contain'
-                    style={{
-                        padding:3,
-                        borderRadius:30,
-                        backgroundColor:'#E84949',
-                        tintColor:'#FFF',
-                        width: 70,
-                        height: 70,
-                        marginRight:10}}/>
+
+                <View style={styles.searchbarContainer}>
+
+                    <View style={styles.searchBar}>
+                        <TextInput
+                            
+                            style={styles.input}
+                            placeholder="Escribe lo que deseas buscar..."
+                            placeholderTextColor="#000"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+
+                        />
+                    </View>
+
+                    
                 </View>
+              
+                <View style={styles.optionsContainer}>
+                    <View style={styles.option}>
+                        <Image source={require('../assets/Icons/medicine.png')}
+                            resizeMode='contain'
+                            style={{
+                                padding:3,
+                                borderRadius:30,
+                                backgroundColor:'#E84949',
+                                tintColor:'#FFF',
+                                width: 70,
+                                height: 70,
+                                alignItems: 'center' }}/>
+                        <Text style={styles.optionText}>Medicamentos</Text>
+                    </View>    
+                </View>
+
+                
+
 
             </ScrollView>
 
@@ -50,13 +76,15 @@ const FindScreen = ({navigation}) => {
     );
 }
 
+const windowWidth = Dimensions.get('window').width;
+
 export default FindScreen;
 
 const BGColor = '#121418';
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        width:'100%',
+        width: windowWidth,
         alignItems:"center",
         justifyContent:"center",
         alignSelf:'center',
@@ -123,10 +151,69 @@ const styles = StyleSheet.create({
     optionsContainer:{
         top:50,
         height:80,
-        width:'88%',
+        width:windowWidth-110,
         padding:5,
-        marginBottom:0,
+        marginTop:30,
+        marginRight: windowWidth/4,
         flexDirection: 'row'
+    }, 
+    searchbarContainer:{
+        top:50,
+        height:80,
+        width:windowWidth-110,
+        padding:5,
+        margin:0,
+        flexDirection: 'row'
+    }, 
+   
+    right:{
+        alignItems:'right',
+        width: windowWidth,
+        height: 70,
+        borderRadius: 50,
+        
+        
+    },icon:{
+        width: 50,
+        height: 50,
+        marginRight:10
     },
+    searchBar:{
+        margin: 10,
+        padding: 10,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: windowWidth - 120,
+        top: 20,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    optionText:{
+        fontSize:15,
+        alignContent:'center',
+        width:200,
+        color:'#fff',
+        marginBottom:10,
+        marginRight:30
+    },
+
+
+
+
+
+
+
+
 
 });
