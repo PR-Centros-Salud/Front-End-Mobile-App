@@ -14,7 +14,10 @@ export default function LogIn(){
 
   const login = () => {
     if(email === "email@gmail.com" && password === "abcabc"){
-      navigation.navigate("Home");
+      navigation.reset({
+        index:0,
+        routes:[{name:"Home"}],
+      });
     }else{
       Alert.alert("Error", "Login info incorrect")
     }
