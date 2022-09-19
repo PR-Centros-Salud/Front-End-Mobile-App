@@ -6,11 +6,28 @@ import { createStackNavigator } from '@react-navigation/stack';
     
 
 import DashBoard from './DashBoard';
+import DoctorList from './DoctorList';
+import DoctorDetails from './DoctorDetails';
+import DoctorAppointment from './DoctorAppointment';
+
 import Settings from './Settings';
 import Appointments from './Appointments';
 import UserAccount from './UserAccount';
 import UserEdit from './UserEdit';
 import UserPassword from './UserPassword';
+
+const DashboardStack = createStackNavigator();
+
+function DashboardStackScreen() {
+  return(
+    <DashboardStack.Navigator screenOptions={{headerShown:false}}>
+      <DashboardStack.Screen name="DashBoard" component={DashBoard}/>
+      <DashboardStack.Screen name="DoctorList" component={DoctorList}/>
+      <DashboardStack.Screen name="DoctorDetails" component={DoctorDetails}/>
+      
+    </DashboardStack.Navigator>
+  )
+}
 
 const SettingsStack = createStackNavigator();
 
@@ -40,7 +57,7 @@ const BottomTab = () => {
               height:60,
               paddingBottom:5}}
               }>
-           <Tab.Screen name="Inicio" component={DashBoard}  options={{
+           <Tab.Screen name="Inicio" component={DashboardStackScreen}  options={{
               tabBarIcon:({focused}) => (
                 <View>
                   <Image

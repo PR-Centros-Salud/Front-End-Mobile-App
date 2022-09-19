@@ -46,29 +46,64 @@ const FindScreen = ({navigation}) => {
 
                         />
                     </View>
-
-                    
                 </View>
               
-                <View style={styles.optionsContainer}>
-                    <View style={styles.option}>
-                        <Image source={require('../assets/Icons/medicine.png')}
-                            resizeMode='contain'
-                            style={{
-                                padding:3,
-                                borderRadius:30,
-                                backgroundColor:'#E84949',
-                                tintColor:'#FFF',
-                                width: 70,
-                                height: 70,
-                                alignItems: 'center' }}/>
-                        <Text style={styles.optionText}>Medicamentos</Text>
-                    </View>    
+                <View style={styles.optionsSlider}>
+                    <View style={styles.optionBox}>
+                        <TouchableOpacity onPress={() => navigation.navigate('DoctorList')}>
+                            <Image
+                                source={require('../assets/Icons/user.png')}
+                                resizeMode='contain'
+                                style={{
+                                    tintColor:'#FFF',
+                                    borderRadius:5,
+                                    width: 30,
+                                    height: 30,
+                                    marginRight:10,
+                                    padding:4
+                                
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.optionBox}>
+                        <TouchableOpacity onPress={() => navigation.navigate('DoctorList')}>
+                            <Image
+                                source={require('../assets/Icons/user.png')}
+                                resizeMode='contain'
+                                style={{
+                                    tintColor:'#FFF',
+                                    borderRadius:5,
+                                    width: 30,
+                                    height: 30,
+                                    marginRight:10,
+                                    padding:4
+                                
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.optionBox}>
+                        <TouchableOpacity onPress={() => navigation.navigate('DoctorList')}>
+                            <Image
+                                source={require('../assets/Icons/user.png')}
+                                resizeMode='contain'
+                                style={{
+                                    tintColor:'#FFF',
+                                    borderRadius:5,
+                                    width: 30,
+                                    height: 30,
+                                    marginRight:10,
+                                    padding:4
+                                
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-
                 
-
-
             </ScrollView>
 
         </View>
@@ -207,13 +242,23 @@ const styles = StyleSheet.create({
         marginBottom:10,
         marginRight:30
     },
-
-
-
-
-
-
-
-
-
+    optionsSlider:{
+        width:'auto',
+        height:'auto',
+        margin:'auto',
+        marginTop:70,
+        flexDirection: 'row',
+        padding:10,
+        backgroundColor:'transparent'
+    },
+    optionBox:{
+        height:45,
+        width:45,
+        marginRight:5,
+        padding:4,
+        alignItems:'center',
+        justifyContent:'center',
+        alignSelf:'center',
+        backgroundColor:'transparent'
+    }
 });

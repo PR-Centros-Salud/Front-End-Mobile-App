@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     },
     appointmentContainer:{
         borderRadius:10,
-        height:70,
+        height:'auto',
         padding:5,
         marginBottom:5,
         backgroundColor:'#262C33',
