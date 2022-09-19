@@ -9,16 +9,16 @@ const FindScreen = ({navigation}) => {
 
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>Configuración</Text>
+            <Text style={styles.title}>Mi Perfil</Text>
             
             <View style={styles.profileContainer}>
                 <Image
                     source={require('../assets/userPictures/lady.png')}
                     resizeMode='contain'
                     style={{
-                        borderRadius:50,
-                        width: 60,
-                        height: 60,
+                        borderRadius:20,
+                        width: 110,
+                        height: 110,
                         marginRight:10
                     }}
                   />
@@ -27,7 +27,16 @@ const FindScreen = ({navigation}) => {
                         María Jimenez
                     </Text>
                     <Text style={styles.userInfo}>
+                        mariajim@gmail.com
+                    </Text>
+                    <Text style={styles.userInfo}>
                         Estudiante
+                    </Text>
+                    <Text style={styles.userInfo}>
+                        78743012
+                    </Text>
+                    <Text style={styles.userInfo}>
+                        1345810
                     </Text>
                 </View>
             </View>
@@ -35,9 +44,8 @@ const FindScreen = ({navigation}) => {
             <ScrollView style={styles.scrollV}>
                 <View style={styles.separator}/>
 
-                <Text style={styles.subText}> Mi Cuenta</Text>
-
-                <TouchableOpacity style={styles.optionsContainer} onPress={() => navigation.navigate('UserAccount')}>
+             
+                <TouchableOpacity style={styles.optionsContainer} onPress={() => navigation.navigate('UserEdit')}>
                 <Image
                     source={require('../assets/Icons/user.png')}
                     resizeMode='contain'
@@ -53,14 +61,14 @@ const FindScreen = ({navigation}) => {
                   />
                   <View style={styles.optionsTextCont}>
                     <Text style={styles.optionsText}>
-                        Mi Perfil
+                        Editar Perfil
                     </Text>
                     
                   </View>
                     
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.optionsContainer} onPress={() => navigation.navigate('Appointments')}>
+                <TouchableOpacity style={styles.optionsContainer} onPress={() => navigation.navigate('UserPassword')}>
                     <Image
                     source={require('../assets/Icons/calendarIcon.png')}
                     resizeMode='contain'
@@ -76,83 +84,15 @@ const FindScreen = ({navigation}) => {
                   />
                   <View style={styles.optionsTextCont}>
                     <Text style={styles.optionsText}>
-                        Mis Citas
+                        Cambiar Contraseña
                     </Text>
                     
                   </View>
                     
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.optionsContainer}>
-                <Image
-                    source={require('../assets/Icons/medicine.png')}
-                    resizeMode='contain'
-                    style={{
-                        tintColor:'#FFF',
-                        borderRadius:5,
-                        width: 35,
-                        height: 35,
-                        marginRight:10,
-                        padding:4
-                      
-                    }}
-                  />
-                  <View style={styles.optionsTextCont}>
-                    <Text style={styles.optionsText}>
-                        Mis Compras
-                    </Text>
-                    
-                  </View>
-                    
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.optionsContainer}>
-                <Image
-                    source={require('../assets/Icons/help.png')}
-                    resizeMode='contain'
-                    style={{
-                        tintColor:'#FFF',
-                        borderRadius:5,
-                        width: 35,
-                        height: 30,
-                        marginRight:10,
-                        padding:4
-                      
-                    }}
-                  />
-                  <View style={styles.optionsTextCont}>
-                    <Text style={styles.optionsText}>
-                        Ayuda
-                    </Text>
-                    
-                  </View>
-                    
-                </TouchableOpacity>
-
-                <View style={styles.separator2}/>
-
-                <TouchableOpacity style={styles.optionsContainer}>
-                <Image
-                    source={require('../assets/Icons/location.png')}
-                    resizeMode='contain'
-                    style={{
-                        tintColor:'#FFF',
-                        borderRadius:5,
-                        width: 35,
-                        height: 35,
-                        marginRight:10,
-                        padding:4
-                      
-                    }}
-                  />
-                  <View style={styles.optionsTextCont}>
-                    <Text style={styles.optionsText}>
-                        Ubicación
-                    </Text>
-                    
-                  </View>
-                    
-                </TouchableOpacity>
+                
+                
 
             </ScrollView>
 
@@ -178,7 +118,7 @@ const styles = StyleSheet.create({
     title:{
         left:0,
         top:30,
-        width:175,
+        width:100,
         marginTop:0,
         marginBottom:10,
         color:'#FFF',
@@ -208,7 +148,7 @@ const styles = StyleSheet.create({
     },
     profileContainer:{
         top:50,
-        height:70,
+        height:120,
         width:'88%',
         padding:5,
         marginBottom:5,
@@ -227,7 +167,8 @@ const styles = StyleSheet.create({
     },
     userInfo:{
         fontSize:12,
-        color:'#7a7a7a'
+        color:'#7a7a7a',
+        marginTop:4
     },
 
     separator:{

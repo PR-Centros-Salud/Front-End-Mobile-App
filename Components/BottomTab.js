@@ -1,10 +1,31 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+    
 
 import DashBoard from './DashBoard';
 import Settings from './Settings';
 import Appointments from './Appointments';
+import UserAccount from './UserAccount';
+import UserEdit from './UserEdit';
+import UserPassword from './UserPassword';
+
+const SettingsStack = createStackNavigator();
+
+function SettingsStackScreen() {
+  return (
+    <SettingsStack.Navigator screenOptions={{headerShown:false}}>
+      <SettingsStack.Screen name="Settings" component={Settings} />
+      <SettingsStack.Screen name="Appointments" component={Appointments} />
+      <SettingsStack.Screen name="UserAccount" component={UserAccount}/>
+      <SettingsStack.Screen name="UserEdit" component={UserEdit}/>
+      <SettingsStack.Screen name="UserPassword" component={UserPassword}/>
+    </SettingsStack.Navigator>
+  );
+}
+
 
 const Tab = createBottomTabNavigator();
 
@@ -51,7 +72,7 @@ const BottomTab = () => {
               ),
             }}/>
 
-            <Tab.Screen name="Configuración" component={Settings} options={{
+            <Tab.Screen name="Configuración" component={SettingsStackScreen} options={{
               tabBarIcon:({focused}) => (
                 <View>
                   <Image
