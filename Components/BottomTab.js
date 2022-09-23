@@ -22,9 +22,9 @@ function DashboardStackScreen() {
   return(
     <DashboardStack.Navigator screenOptions={{headerShown:false}}>
       <DashboardStack.Screen name="DashBoard" component={DashBoard}/>
-      <DashboardStack.Screen name="DoctorList" component={DoctorList}/>
+      <DashboardStack.Screen name="DoctorList" component={DoctorList} options={{title:"Doctores"}}/>
       <DashboardStack.Screen name="DoctorDetails" component={DoctorDetails}/>
-      
+      <DashboardStack.Screen name="DoctorAppointment" component={DoctorAppointment}/>
     </DashboardStack.Navigator>
   )
 }

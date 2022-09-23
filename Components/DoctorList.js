@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, Alert, TextInput, StyleSheet, ScrollView} from "react-native";
 
-export default function DoctorList(){
+const FindScreen = ({navigation}) => {
     return(
         <View style={styles.mainContainer}>
 
@@ -45,7 +45,7 @@ export default function DoctorList(){
             <View styles={styles.scrollVerticalContainer}>
                 <ScrollView style={styles.scrollViewVertical}>
                     
-                    <TouchableOpacity style={styles.doctorContainer}>
+                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('DoctorDetails')}>
                         <Image
                             source={require('../assets/userPictures/lady.png')}
                             resizeMode='contain'
@@ -62,7 +62,7 @@ export default function DoctorList(){
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.doctorContainer}>
+                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('DoctorDetails')}>
                         <Image
                             source={require('../assets/userPictures/lady.png')}
                             resizeMode='contain'
@@ -79,7 +79,7 @@ export default function DoctorList(){
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.doctorContainer}>
+                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('DoctorDetails')}>
                         <Image
                             source={require('../assets/userPictures/lady.png')}
                             resizeMode='contain'
@@ -96,7 +96,7 @@ export default function DoctorList(){
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.doctorContainer}>
+                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('DoctorDetails')}>
                         <Image
                             source={require('../assets/userPictures/lady.png')}
                             resizeMode='contain'
@@ -113,7 +113,7 @@ export default function DoctorList(){
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.doctorContainer}>
+                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('DoctorDetails')}>
                         <Image
                             source={require('../assets/userPictures/lady.png')}
                             resizeMode='contain'
@@ -135,6 +135,8 @@ export default function DoctorList(){
         </View>
     );
 }
+
+export default FindScreen;
 
 const styles = StyleSheet.create({
     mainContainer:{
