@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Dimensions } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 
 const FindScreen = ({navigation}) => {
     return(
@@ -66,7 +67,7 @@ const FindScreen = ({navigation}) => {
                 <Text style={styles.secondSubText}>Fecha</Text>
                 <View style={styles.DateContainer}>
                     <Text style={{color:'white'}}>
-                        Aqui Va la fecha
+                        <Calendar/>
                     </Text>
                 </View>
                 <Text style={styles.secondSubText}>Detalles de la cita</Text>
