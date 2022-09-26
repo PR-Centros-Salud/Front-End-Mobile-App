@@ -24,7 +24,7 @@ const FindScreen = ({navigation}) => {
                 <Image
                     source={require('../assets/userPictures/lady.png')}
                     resizeMode='contain'
-                    style={styles.right}
+                    style={{width:75, height:75, borderRadius:50}}
                   />
             </View>
             
@@ -52,13 +52,14 @@ const FindScreen = ({navigation}) => {
                     <View style={styles.optionBox}>
                         <TouchableOpacity onPress={() => navigation.navigate('DoctorList')}>
                             <Image
-                                source={require('../assets/Icons/user.png')}
+                                source={require('../assets/Icons/medicine.png')}
                                 resizeMode='contain'
                                 style={{
                                     tintColor:'#FFF',
-                                    borderRadius:5,
-                                    width: 30,
-                                    height: 30,
+                                    width: 40,
+                                    height: 40,
+                                    alignContent:'center',
+                                    justifyContent:'center',
                                     marginRight:10,
                                     padding:4
                                 
@@ -67,7 +68,7 @@ const FindScreen = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.optionBox}>
+                    <View style={styles.optionBox2}>
                         <TouchableOpacity onPress={() => navigation.navigate('DoctorList')}>
                             <Image
                                 source={require('../assets/Icons/user.png')}
@@ -85,7 +86,25 @@ const FindScreen = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.optionBox}>
+                    <View style={styles.optionBox2}>
+                        <TouchableOpacity onPress={() => navigation.navigate('DoctorList')}>
+                            <Image
+                                source={require('../assets/Icons/user.png')}
+                                resizeMode='contain'
+                                style={{
+                                    tintColor:'#FFF',
+                                    borderRadius:5,
+                                    width: 30,
+                                    height: 30,
+                                    marginRight:10,
+                                    padding:4
+                                
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.optionBox2}>
                         <TouchableOpacity onPress={() => navigation.navigate('DoctorList')}>
                             <Image
                                 source={require('../assets/Icons/user.png')}
@@ -184,23 +203,22 @@ const styles = StyleSheet.create({
     },
 
     optionsContainer:{
-        top:50,
+        top:20,
         height:80,
-        width:windowWidth-110,
         padding:5,
-        marginTop:30,
+        marginTop:20,
         marginRight: windowWidth/4,
         flexDirection: 'row'
     }, 
     searchbarContainer:{
         top:50,
         height:80,
-        width:windowWidth-110,
-        padding:5,
+        width:'100%',
+        padding:0,
         margin:0,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        backgroundColor:'transparent'
     }, 
-   
     right:{
         alignItems:'right',
         width: windowWidth,
@@ -214,13 +232,14 @@ const styles = StyleSheet.create({
         marginRight:10
     },
     searchBar:{
-        margin: 10,
-        padding: 10,
+        margin: 0,
+        padding: 5,
         backgroundColor: '#fff',
         borderRadius: 10,
         flexDirection: 'row',
         alignItems: 'center',
-        width: windowWidth - 120,
+        height:'50%',
+        width: '100%',
         top: 20,
         left: 0,
         bottom: 0,
@@ -246,19 +265,34 @@ const styles = StyleSheet.create({
         width:'auto',
         height:'auto',
         margin:'auto',
-        marginTop:70,
+        marginTop:40,
         flexDirection: 'row',
         padding:10,
         backgroundColor:'transparent'
     },
     optionBox:{
-        height:45,
-        width:45,
-        marginRight:5,
+        height:60,
+        width:60,
+        marginRight:6,
+        alignItems:'center',
+        justifyContent:'center',
+        alignSelf:'center',
+        backgroundColor:'#E24949',
+        borderRadius:50
+    },
+    optionBox2:{
+        height:60,
+        width:60,
+        marginRight:10,
         padding:4,
         alignItems:'center',
         justifyContent:'center',
         alignSelf:'center',
-        backgroundColor:'transparent'
+        backgroundColor:'#262C33',
+        borderRadius:50
+    },
+    iconOptions:{
+        justifyContent:'center',
+        alignItems:'center'
     }
 });
