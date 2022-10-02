@@ -1,298 +1,264 @@
 import React from 'react';
-import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView, Dimensions, TextInput} from 'react-native';
-import { SearchBar } from 'react-native-screens';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-
-
+import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView, TextInput} from 'react-native';
+import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
 const FindScreen = ({navigation}) => {
     return(
-        <View style={styles.container}>
-            
-            <View style={styles.profileContainer}>
-                
-                <View style={styles.userTextCont}>
-                    
-                    <Text style={styles.userName}>
-                        Hola, Fernanda!
+        <View style={styles.mainContainer}>
+            <View style={styles.greetContainer}>
+                <View style={styles.greetTextContainer}>
+                    <Text style={styles.greetText}>
+                        Hola, {userName}!
                     </Text>
-                    
                 </View>
-                
-                
-                <Image
-                    source={require('../assets/userPictures/lady.png')}
-                    resizeMode='contain'
-                    style={{width:75, height:75, borderRadius:50}}
-                  />
+                <View style={styles.greetUserPhotoContainer}>
+                    <Image
+                    source={require('../assets/userPictures/lady.png')} 
+                    style={styles.userPhoto}/>
+                </View>
             </View>
-            
-            <ScrollView style={styles.scrollV}>
-                
-                <Text style={styles.subText}>¿Qué te trae de {"\n"} nuevo por acá?</Text>
 
+            <View style={styles.mainTitleContainer}>
+                <View style={styles.greetTitleContainer}>
+                    <Text style={styles.greetTitleText}>
+                        Que te trae de {"\n"} nuevo por acá?
+                    </Text>
+                </View>
+            </View>
 
-                <View style={styles.searchbarContainer}>
-
-                    <View style={styles.searchBar}>
-                        <TextInput
-                            
-                            style={styles.input}
-                            placeholder="Escribe lo que deseas buscar..."
-                            placeholderTextColor="#000"
-                            autoCapitalize="none"
-                            autoCorrect={false}
-
+            <View style={styles.searchBarContainer}>
+                <Image  
+                    source={require('../assets/Icons/search.png')}
+                    resizeMode='contain'
+                    style={styles.searchBarIcon}/>
+                <TextInput style={styles.searchBar}
+                    placeholder="Escribe lo que deseas buscar..."
+                    placeholderTextColor="#a6a6a6"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    
+                />
+            </View>
+            <View style={styles.optionsContainer}>
+                <View style={styles.optionBox}>
+                    <TouchableOpacity style={styles.optionCircle2}>
+                        <Image 
+                            source={require('../assets/Icons/syringe.png')}
+                            resizeMode='contain'
+                            style={styles.optionsImage}
                         />
-                    </View>
-                </View>
-              
-                <View style={styles.optionsSlider}>
-                    <View style={styles.optionBox}>
-                        <TouchableOpacity onPress={() => navigation.navigate('DoctorList')}>
-                            <Image
-                                source={require('../assets/Icons/medicine.png')}
-                                resizeMode='contain'
-                                style={{
-                                    tintColor:'#FFF',
-                                    width: 40,
-                                    height: 40,
-                                    alignContent:'center',
-                                    justifyContent:'center',
-                                    marginRight:10,
-                                    padding:4
-                                
-                                }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.optionBox2}>
-                        <TouchableOpacity onPress={() => navigation.navigate('DoctorList')}>
-                            <Image
-                                source={require('../assets/Icons/user.png')}
-                                resizeMode='contain'
-                                style={{
-                                    tintColor:'#FFF',
-                                    borderRadius:5,
-                                    width: 30,
-                                    height: 30,
-                                    marginRight:10,
-                                    padding:4
-                                
-                                }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.optionBox2}>
-                        <TouchableOpacity onPress={() => navigation.navigate('DoctorList')}>
-                            <Image
-                                source={require('../assets/Icons/user.png')}
-                                resizeMode='contain'
-                                style={{
-                                    tintColor:'#FFF',
-                                    borderRadius:5,
-                                    width: 30,
-                                    height: 30,
-                                    marginRight:10,
-                                    padding:4
-                                
-                                }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.optionBox2}>
-                        <TouchableOpacity onPress={() => navigation.navigate('DoctorList')}>
-                            <Image
-                                source={require('../assets/Icons/user.png')}
-                                resizeMode='contain'
-                                style={{
-                                    tintColor:'#FFF',
-                                    borderRadius:5,
-                                    width: 30,
-                                    height: 30,
-                                    marginRight:10,
-                                    padding:4
-                                
-                                }}
-                            />
-                        </TouchableOpacity>
-                    </View>
+                    </TouchableOpacity>
+                    <Text style={styles.textOption}>
+                        Reservar Cita
+                    </Text>
                 </View>
                 
-            </ScrollView>
 
-        </View>
+                <View style={styles.optionBox}>
+                    <TouchableOpacity style={styles.optionCircle}>
+                        <Image 
+                            source={require('../assets/Icons/syringe.png')}
+                            resizeMode='contain'
+                            style={styles.optionsImage}
+                        />
+                    </TouchableOpacity>
+                    <Text style={styles.textOption}>
+                        Laboratorio
+                    </Text>
+                </View>
+
+                <View style={styles.optionBox}>
+                    <TouchableOpacity style={styles.optionCircle}>
+                        <Image 
+                            source={require('../assets/Icons/medicine.png')}
+                            resizeMode='contain'
+                            style={styles.optionsImage}
+                        />
+                    </TouchableOpacity>
+                    <Text style={styles.textOption}>
+                        Farmacia
+                    </Text>
+                </View>
+
+                <View style={styles.optionBox}>
+                    <TouchableOpacity style={styles.optionCircle} onPress={() => navigation.navigate('DoctorList')}>
+                        <Image 
+                            source={require('../assets/Icons/user.png')}
+                            resizeMode='contain'
+                                style={styles.optionsImage}
+                            />
+                    </TouchableOpacity>
+                    <Text style={styles.textOption}>
+                        Doctores
+                    </Text>
+                </View>
+            </View>
+
+            <View style={styles.subTitle}>
+                <Text style={styles.textSubTitle}>
+                    Hospitales cerca de tu área
+                </Text>
+                
+                <Text style={styles.textLink}>
+                    Ver más
+                </Text>
+            </View>
         
+        </View>
     );
 }
 
-const windowWidth = Dimensions.get('window').width;
 
 export default FindScreen;
 
+const userName = 'Fernanda';
+
 const BGColor = '#121418';
 const styles = StyleSheet.create({
-    container:{
-        flex: 1,
-        width: windowWidth,
-        alignItems:"center",
-        justifyContent:"center",
-        alignSelf:'center',
-        backgroundColor: BGColor
-    },
-    title:{
-        left:0,
-        top:10,
-        width:175,
-        marginTop:0,
-        marginBottom:10,
-        color:'#FFF',
-        fontWeight:'800',
-        fontSize: 25,
-        alignItems:"center",
-        justifyContent:"center",
-        alignSelf:'center'
-    },
-    plainText:{
-        color:'#fff'
-    },
-    
-    subText:{
+    mainContainer:{
+        margin:'auto',
         width:'100%',
-        color:'#FFF',
-        fontWeight:'500',
-        fontSize:30,
-        left:0, 
-        top:30,
-        bottom:30
-    },
-    scrollV:{
-        backgroundColor:'transparent',
-        height:'20%',
-        width:'88%',
-        top:60
-    },
-    profileContainer:{
-        top:50,
-        height:80,
-        width:'88%',
-        padding:5,
-        marginBottom:0,
-        flexDirection: 'row'
-    },
-    userTextCont:{
-        width:250,
-        padding:0,
-        left:-10,
+        height:'100%',
+        padding:20,
         alignItems:'center',
-        justifyContent:'center',
-        alignSelf:'center'
+        backgroundColor:BGColor
     },
-    
-    userName:{
-        fontSize:15,
-        left:0,
-        width:200,
-        color:'#FFF',
-        marginBottom:10, 
-        marginRight:30
-    },
-
-    optionsContainer:{
-        top:20,
-        height:80,
-        padding:5,
-        marginTop:20,
-        marginRight: windowWidth/4,
-        flexDirection: 'row'
-    }, 
-    searchbarContainer:{
-        top:50,
-        height:80,
+    greetContainer:{
         width:'100%',
-        padding:0,
-        margin:0,
-        flexDirection: 'row',
-        backgroundColor:'transparent'
-    }, 
-    right:{
-        alignItems:'right',
-        width: windowWidth,
-        height: 70,
-        borderRadius: 50,
-        
-        
-    },icon:{
-        width: 50,
-        height: 50,
-        marginRight:10
-    },
-    searchBar:{
-        margin: 0,
-        padding: 5,
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-        height:'50%',
-        width: '100%',
-        top: 20,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    },
-    optionText:{
-        fontSize:15,
-        alignContent:'center',
-        width:200,
-        color:'#fff',
+        height:'auto',
+        marginTop:25,
+        padding:10,
         marginBottom:10,
-        marginRight:30
+        flexDirection:'row',
+        backgroundColor:'transparent',
     },
-    optionsSlider:{
+    greetTextContainer:{
+        width:'auto',
+        color:'white',
+        justifyContent:'center',
+        backgroundColor:'transparent'
+    },
+    greetText:{
+        color:'white',
+        fontSize:15,
+        fontWeight:'600'
+    },
+    greetUserPhotoContainer:{
         width:'auto',
         height:'auto',
-        margin:'auto',
-        marginTop:40,
-        flexDirection: 'row',
+        backgroundColor:'transparent',
+        right:-115
+        
+    },
+    userPhoto:{
+        width:90,
+        height:90,
+        borderRadius:50
+    },
+    mainTitleContainer:{
+        height:'auto',
+        width:'100%',
+        backgroundColor:'transparent'
+    },
+    greetTitleContainer:{
+        width:'auto',
+        height:'auto',
+        padding:5,
+        backgroundColor:'transparent'
+    },
+    greetTitleText:{
+        color:'white', 
+        fontSize:35,
+        fontWeight:'500',
+        textAlign:'left'
+    },
+    searchBarContainer:{
+        width:'100%',
+        height:'auto',
+        marginTop:10,
+        borderRadius:12,
         padding:10,
+        backgroundColor:'#262C33',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    searchBar:{
+        margin:'auto',
+        width:'91%',
+        height:40,
+        padding:7,
+        borderRadius:12,
+        backgroundColor:'transparent'
+    },
+    searchBarIcon:{
+        width:25,
+        height:25,
+        tintColor:'#c7c7c7'
+    },
+    optionsContainer:{
+        width:'100%',
+        height:'auto',
+        marginTop:15,
+        padding:0,
+        flexDirection:'row',
         backgroundColor:'transparent'
     },
     optionBox:{
-        height:60,
-        width:60,
-        marginRight:6,
+        height:'auto',
+        width:80,
+        marginRight:7,
         alignItems:'center',
-        justifyContent:'center',
-        alignSelf:'center',
-        backgroundColor:'#E24949',
-        borderRadius:50
+        backgroundColor:'transparent'
     },
-    optionBox2:{
-        height:60,
-        width:60,
-        marginRight:10,
-        padding:4,
+    textOption:{
+        color:'white',
+        textAlign:'center',
+        fontSize:13,
+        fontWeight:'500'
+    },
+    optionCircle:{
+        height:65,
+        width:65,
+        padding:10,
         alignItems:'center',
-        justifyContent:'center',
-        alignSelf:'center',
-        backgroundColor:'#262C33',
-        borderRadius:50
+        borderRadius:50,
+        backgroundColor:'#262C33'
     },
-    iconOptions:{
-        justifyContent:'center',
-        alignItems:'center'
+    optionCircle2:{
+        height:65,
+        width:65,
+        padding:10,
+        alignItems:'center',
+        borderRadius:50,
+        backgroundColor:'#E84949'
+    },
+    optionsImage:{
+        width:40,
+        height:40,
+        tintColor:'white'
+    },
+    subTitle:{
+        width:'100%',
+        height:'auto',
+        marginTop:10,
+        padding:6,
+        alignItems:'center',
+        flexDirection:'row',
+        backgroundColor:'transparent'
+    },
+    textSubTitle:{
+       color:'white',
+       fontSize:18,
+       fontWeight:'700'
+    },
+    textLink:{
+        color:'#7b7b7b',
+        fontSize:15,
+        fontWeight:'500',
+        marginLeft:30,
+        backgroundColor:'transparent',
+        
     }
+    
 });
