@@ -12,6 +12,7 @@ import DoctorAppointment from './DoctorAppointment';
 
 import Settings from './Settings';
 import Appointments from './Appointments';
+import UserLocation from './UserLocation';
 import UserAccount from './UserAccount';
 import UserEdit from './UserEdit';
 import UserPassword from './UserPassword';
@@ -36,6 +37,7 @@ function SettingsStackScreen() {
     <SettingsStack.Navigator screenOptions={{headerShown:false}}>
       <SettingsStack.Screen name="Settings" component={Settings} />
       <SettingsStack.Screen name="Appointments" component={Appointments} />
+      <SettingsStack.Screen name="UserLocation" component={UserLocation} />
       <SettingsStack.Screen name="UserAccount" component={UserAccount}/>
       <SettingsStack.Screen name="UserEdit" component={UserEdit}/>
       <SettingsStack.Screen name="UserPassword" component={UserPassword}/>

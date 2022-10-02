@@ -131,7 +131,7 @@ const FindScreen = ({navigation}) => {
 
                 <View style={styles.separator2}/>
 
-                <TouchableOpacity style={styles.optionsContainer}>
+                <TouchableOpacity style={styles.optionsContainer} onPress={() => navigation.navigate('UserLocation')}>
                 <Image
                     source={require('../assets/Icons/location.png')}
                     resizeMode='contain'
@@ -147,7 +147,7 @@ const FindScreen = ({navigation}) => {
                   />
                   <View style={styles.optionsTextCont}>
                     <Text style={styles.optionsText}>
-                        Ubicación
+                        Mi Ubicación
                     </Text>
                     
                   </View>
