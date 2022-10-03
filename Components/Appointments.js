@@ -19,7 +19,7 @@ const FindScreen = ({navigation}) => {
 
             <ScrollView style={styles.scrollV}>
                 
-                <TouchableOpacity style={styles.appointmentContainer}>
+                <TouchableOpacity style={styles.appointmentContainer}  onPress={() => navigation.navigate('AppointmentInfo')}>
                 <Image
                     source={require('../assets/userPictures/lady.png')}
                     resizeMode='contain'

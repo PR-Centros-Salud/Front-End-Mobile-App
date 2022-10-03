@@ -17,6 +17,8 @@ import UserAccount from './UserAccount';
 import UserEdit from './UserEdit';
 import UserPassword from './UserPassword';
 
+import AppointmentInfo from './AppointmentInfo'
+
 const DashboardStack = createStackNavigator();
 
 function DashboardStackScreen() {
@@ -29,6 +31,17 @@ function DashboardStackScreen() {
     </DashboardStack.Navigator>
   )
 }
+
+const AppointmentStack = createStackNavigator();
+
+function AppointmentStackScreen() {
+  return(
+    <AppointmentStack.Navigator screenOptions={{headerShown:false}}>
+      <AppointmentStack.Screen name="Appointments" component={Appointments}/>
+      <AppointmentStack.Screen name="AppointmentInfo" component={AppointmentInfo}/>
+    </AppointmentStack.Navigator>
+  )
+};
 
 const SettingsStack = createStackNavigator();
 
@@ -75,7 +88,7 @@ const BottomTab = () => {
               ),
             }}/>
 
-            <Tab.Screen name="Citas" component={Appointments} options={{
+            <Tab.Screen name="Citas" component={AppointmentStackScreen} options={{
               tabBarIcon:({focused}) => (
                 <View>
                   <Image
