@@ -1,12 +1,34 @@
 import React from 'react';
 import { View, Text, Button, TextInput, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
+import * as Location from 'expo-location';
 import { useNavigation } from "@react-navigation/native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 const FindScreen = ({navigation}) => {
+
+    function getLocationPermission() {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+    
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+        })();
+    } 
+
+    const [origin, setOrigin] = React.useState({
+        latitude: -17.390530,
+        longitude: -66.210519,
+    });
+  
+
+
 
     return(
         <View style={styles.mainContainer}>
@@ -15,9 +37,25 @@ const FindScreen = ({navigation}) => {
                     Mi Ubicación
                 </Text>
             </View>
+
+            
             
             <View style={styles.mapContainer}>
-                <MapView style={styles.map} />
+                <MapView style={styles.map}
+                    initialRegion={{
+                        latitude: origin.latitude,
+                        longitude: origin.longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                > 
+                    <Marker
+                    draggable
+                    coordinate={origin}
+                    onDragEnd={(direction) => setOrigin(direction.nativeEvent.coordinate)}
+                />
+                
+                </MapView>
                 
                 <View style={styles.mainMapContainer}>
                     <View style={styles.mapContentContainer}>
@@ -32,6 +70,9 @@ const FindScreen = ({navigation}) => {
                         <Text style={styles.textMap}>
                             Ubicacion
                         </Text>
+
+                      
+
                     </View>
 
                     <View style={styles.buttonContainer}>
