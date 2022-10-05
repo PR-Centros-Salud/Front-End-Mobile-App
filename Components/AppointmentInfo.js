@@ -130,6 +130,73 @@ const FindScreen = ({navigation}) => {
 
             </View>
 
+            <View style={styles.doctorDetailContainer}>
+                <View style={styles.subTitle1}>
+                    <Text style={styles.subTitleText}>
+                        Recetas Medicas:
+                    </Text>
+                </View>
+                <View style={styles.separator}></View>
+
+                <View style={styles.docInfoContainer}>
+                    
+                    <View style={styles.appInfo}>
+                        <Image
+                            source={require('../assets/Icons/medicine.png')}
+                            resizeMode='contain'
+                            style={styles.iconImage}
+                        />
+
+                        <View style={styles.docInfoTextContainer2}>
+                            <Text style={styles.docInfoText}>
+                                Medicamento:
+                            </Text>
+                            <Text style={styles.docInfoText2}>
+                                Ibuprofeno
+                            </Text>
+                        </View>
+
+                    </View>
+                    
+                    <View style={styles.appInfo}>
+                        <Image
+                            source={require('../assets/Icons/location.png')}
+                            resizeMode='contain'
+                            style={styles.iconImage}
+                        />
+
+                        <View style={styles.docInfoTextContainer2}>
+                            <Text style={styles.docInfoText}>
+                                Cantidad:
+                            </Text>
+                            <Text style={styles.docInfoText2}>
+                                9 Tb (nueve)
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+
+                <View style={styles.docInfoContainer}>
+                    
+                    <View style={styles.appInfo2}>
+                        <Image
+                            source={require('../assets/Icons/medicine.png')}
+                            resizeMode='contain'
+                            style={styles.iconImage}
+                        />
+
+                        <View style={styles.docInfoTextContainer2}>
+                            <Text style={styles.docInfoText}>
+                                Indicaciones:
+                            </Text>
+                            <Text style={styles.docInfoText2}>
+                                Tomar un comprimido de Ibuprofeno cada 8 horas por 3 días.
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+            </View>
+
             <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={cancelAlert}>
                         <Text style={styles.buttonText}>Cancelar</Text>
@@ -208,9 +275,15 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         marginLeft:0
     },
+    
     appInfo:{
         flexDirection:'row',
         width:'50%',
+        backgroundColor:'transparent'
+    },
+    appInfo2:{
+        flexDirection:'row',
+        width:'90%',
         backgroundColor:'transparent'
     },
     scrollViewContainer:{
