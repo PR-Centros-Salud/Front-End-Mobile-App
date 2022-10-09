@@ -28,18 +28,16 @@ const FindScreen = ({navigation}) => {
 
             <ScrollView style={styles.scrollV}>
                 
-                <TouchableOpacity style={styles.appointmentContainer}  onPress={() => navigation.navigate('AppointmentInfo')}>
+                <TouchableOpacity style={styles.appointmentContainer}  onPress={() => navigation.navigate('LabAppointmentInfo')}>
                 
                   <View style={styles.appTextCont}>
                     <Text style={styles.appTextStat}>
                         Aceptada
                     </Text>
                     <Text style={styles.plainText}>
-                        Dr. Abdel Garcia
-                    </Text>
-                    <Text style={styles.appDocInfo}>
                         Prueba de Sangre
                     </Text>
+                    
                     <Text style={styles.appClinicInfo}>
                         Hospital del Norte
                     </Text>
@@ -47,18 +45,16 @@ const FindScreen = ({navigation}) => {
                     
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.appointmentContainer}>
+                <TouchableOpacity style={styles.appointmentContainer} onPress={() => navigation.navigate('LabAppointmentInfo')}>
                 
                   <View style={styles.appTextCont}>
                     <Text style={styles.appTextStat}>
                         Aceptada
                     </Text>
                     <Text style={styles.plainText}>
-                        Dr. Abdel Garcia
-                    </Text>
-                    <Text style={styles.appDocInfo}>
                         Prueba de Orina
                     </Text>
+                    
                     <Text style={styles.appClinicInfo}>
                         Hospital del Norte
                     </Text>

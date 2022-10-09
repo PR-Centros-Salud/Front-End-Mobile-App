@@ -20,6 +20,7 @@ import UserPassword from './UserPassword';
 import AppointmentInfo from './AppointmentInfo';
 import LabAppointment from './LabAppointment';
 import NewLabAppointment from './NewLabAppointment';
+import LabAppointmentInfo from './LabAppointmentInfo';
 
 const DashboardStack = createStackNavigator();
 
@@ -29,6 +30,7 @@ function DashboardStackScreen() {
       <DashboardStack.Screen name="DashBoard" component={DashBoard}/>
       <DashboardStack.Screen name="LabAppointment" component={LabAppointment}/>
       <DashboardStack.Screen name="NewLabAppointment" component={NewLabAppointment}/>
+      <DashboardStack.Screen name="LabAppointmentInfo" component={LabAppointmentInfo}/>
       <DashboardStack.Screen name="DoctorList" component={DoctorList} options={{title:"Doctores"}}/>
       <DashboardStack.Screen name="DoctorDetails" component={DoctorDetails}/>
       <DashboardStack.Screen name="DoctorAppointment" component={DoctorAppointment}/>
@@ -66,6 +68,7 @@ function LabStackScreen() {
       }}>
       <LabStack.Screen name="LabAppointment" component={LabAppointment} options={{ title: 'Mis Laboratorios',  }}/>
       <LabStack.Screen name="NewLabAppointment" component={NewLabAppointment} options={{ title: 'Reservar Laboratorio' }}/>
+      <LabStack.Screen name="LabAppointmentInfo" component={LabAppointmentInfo} options={{ title: 'Mis Laboratorios' }}/>
     </LabStack.Navigator>
   )
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { Dimensions } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { SelectList } from 'react-native-dropdown-select-list';
@@ -7,6 +7,19 @@ import { ComboBox } from 'react-native-combobox';
 
 const FindScreen = ({navigation}) => {
 
+    const cancelAlert = () =>
+    Alert.alert(
+      "Confirmar Laboratorio",
+      "Esta seguro que quiere confirmar?",
+      [
+        {
+          text: "Si",
+          onPress: () => console.log("Si Pressed"),
+          style: "cancel"
+        },
+        { text: "No", onPress: () => console.log("No Pressed") }
+      ]
+    );
   
     return(
         
@@ -114,6 +127,14 @@ const FindScreen = ({navigation}) => {
                         </Text>
                     </View>
                     </View>
+                </View>
+
+                <View style={styles.confirmationButtonContainer}>
+                    <TouchableOpacity style={styles.buttonNewLab} onPress={cancelAlert}>
+                        <Text style={styles.plainText}>
+                            Confirmar
+                        </Text>
+                    </TouchableOpacity>
                 </View>
 
             </ScrollView>  
@@ -270,7 +291,7 @@ const styles = StyleSheet.create({
         padding:5,
         justifyContent:'center',
         backgroundColor:'transparent',
-        marginBottom:50
+        marginBottom:10
     },
     detailsContainer:{
         flexDirection:'row',
@@ -314,4 +335,11 @@ const styles = StyleSheet.create({
     simpleTextDetails:{
         color:'white'
     },
+    confirmationButtonContainer:{
+        width:'100%',
+        height:'auto',
+        padding:5,
+        backgroundColor:'transparent',
+        marginBottom:60
+    }
 });
