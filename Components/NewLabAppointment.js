@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { Dimensions } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import { SelectList } from 'react-native-dropdown-select-list';
+import  SelectList  from 'react-native-dropdown-select-list';
 import { ComboBox } from 'react-native-combobox';
 
 const FindScreen = ({navigation}) => {
@@ -88,7 +88,7 @@ const FindScreen = ({navigation}) => {
                 </View>
 
                 <View style={styles.comboBoxContainer}>
-                    
+                    <SelectList/>
                 </View>
 
                 <View style={styles.subTitleContainer}>
@@ -282,9 +282,9 @@ const styles = StyleSheet.create({
     comboBoxContainer:{
         width:'100%',
         height:'auto',
-        backgroundColor:'red',
-        padding:10,
-        marginBottom:5
+        borderRadius:10,
+        marginBottom:5,
+        backgroundColor:'white'
     },
     mainDetailsContainer:{
         width:'100%',
