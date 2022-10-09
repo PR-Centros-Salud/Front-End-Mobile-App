@@ -41,7 +41,7 @@ const FindScreen = ({navigation}) => {
             </View>
             <View style={styles.optionsContainer}>
                 <View style={styles.optionBox}>
-                    <TouchableOpacity style={styles.optionCircle2}>
+                    <TouchableOpacity style={styles.optionCircle2} onPress={() => navigation.navigate('DoctorAppointment')}>
                         <Image 
                             source={require('../assets/Icons/syringe.png')}
                             resizeMode='contain'
@@ -55,7 +55,7 @@ const FindScreen = ({navigation}) => {
                 
 
                 <View style={styles.optionBox}>
-                    <TouchableOpacity style={styles.optionCircle}>
+                    <TouchableOpacity style={styles.optionCircle} onPress={() => navigation.navigate('LabAppointment')}>
                         <Image 
                             source={require('../assets/Icons/syringe.png')}
                             resizeMode='contain'

@@ -17,7 +17,9 @@ import UserAccount from './UserAccount';
 import UserEdit from './UserEdit';
 import UserPassword from './UserPassword';
 
-import AppointmentInfo from './AppointmentInfo'
+import AppointmentInfo from './AppointmentInfo';
+import LabAppointment from './LabAppointment';
+import NewLabAppointment from './NewLabAppointment';
 
 const DashboardStack = createStackNavigator();
 
@@ -25,6 +27,8 @@ function DashboardStackScreen() {
   return(
     <DashboardStack.Navigator screenOptions={{headerShown:false}}>
       <DashboardStack.Screen name="DashBoard" component={DashBoard}/>
+      <DashboardStack.Screen name="LabAppointment" component={LabAppointment}/>
+      <DashboardStack.Screen name="NewLabAppointment" component={NewLabAppointment}/>
       <DashboardStack.Screen name="DoctorList" component={DoctorList} options={{title:"Doctores"}}/>
       <DashboardStack.Screen name="DoctorDetails" component={DoctorDetails}/>
       <DashboardStack.Screen name="DoctorAppointment" component={DoctorAppointment}/>
@@ -40,6 +44,29 @@ function AppointmentStackScreen() {
       <AppointmentStack.Screen name="Appointments" component={Appointments}/>
       <AppointmentStack.Screen name="AppointmentInfo" component={AppointmentInfo}/>
     </AppointmentStack.Navigator>
+  )
+};
+
+const LabStack = createStackNavigator();
+
+function LabStackScreen() {
+  return(
+    <LabStack.Navigator screenOptions={{
+      headerShown:true, 
+      headerStyle: {
+        backgroundColor: '#121418'
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: '800',
+      },
+      headerTitle:{
+        
+      }
+      }}>
+      <LabStack.Screen name="LabAppointment" component={LabAppointment} options={{ title: 'Mis Laboratorios',  }}/>
+      <LabStack.Screen name="NewLabAppointment" component={NewLabAppointment} options={{ title: 'Reservar Laboratorio' }}/>
+    </LabStack.Navigator>
   )
 };
 
@@ -93,6 +120,22 @@ const BottomTab = () => {
                 <View>
                   <Image
                     source={require('../assets/Icons/calendarIcon.png')}
+                    resizeMode='contain'
+                    style={{
+                      width: 30,
+                      height: 30,
+                      tintColor: focused ? '#E84949': '#fff'
+                    }}
+                  />
+                </View>
+              ),
+            }}/>
+
+            <Tab.Screen name="Laboratorio" component={LabStackScreen} options={{
+              tabBarIcon:({focused}) => (
+                <View>
+                  <Image
+                    source={require('../assets/Icons/syringe.png')}
                     resizeMode='contain'
                     style={{
                       width: 30,
