@@ -29,8 +29,19 @@ const FindScreen = ({navigation}) => {
             <ScrollView style={styles.scrollV}>
                 
                 <TouchableOpacity style={styles.appointmentContainer}  onPress={() => navigation.navigate('LabAppointmentInfo')}>
-                
+                <Image
+                    source={require('../assets/Icons/syringe.png')}
+                    resizeMode='contain'
+                    style={{
+                        borderRadius:10,
+                        width: 60,
+                        height: 60,
+                        marginRight:10, tintColor:'#c7c7c7'
+                      
+                    }}
+                  />
                   <View style={styles.appTextCont}>
+                  
                     <Text style={styles.appTextStat}>
                         Aceptada
                     </Text>
@@ -46,7 +57,17 @@ const FindScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.appointmentContainer} onPress={() => navigation.navigate('LabAppointmentInfo')}>
-                
+                <Image
+                    source={require('../assets/Icons/syringe.png')}
+                    resizeMode='contain'
+                    style={{
+                        borderRadius:10,
+                        width: 60,
+                        height: 60,
+                        marginRight:10, tintColor:'#c7c7c7'
+                      
+                    }}
+                  />
                   <View style={styles.appTextCont}>
                     <Text style={styles.appTextStat}>
                         Aceptada
