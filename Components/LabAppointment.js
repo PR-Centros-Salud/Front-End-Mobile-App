@@ -29,17 +29,7 @@ const FindScreen = ({navigation}) => {
             <ScrollView style={styles.scrollV}>
                 
                 <TouchableOpacity style={styles.appointmentContainer}  onPress={() => navigation.navigate('AppointmentInfo')}>
-                <Image
-                    source={require('../assets/userPictures/lady.png')}
-                    resizeMode='contain'
-                    style={{
-                        borderRadius:10,
-                        width: 60,
-                        height: 60,
-                        marginRight:10
-                      
-                    }}
-                  />
+                
                   <View style={styles.appTextCont}>
                     <Text style={styles.appTextStat}>
                         Aceptada
@@ -48,7 +38,7 @@ const FindScreen = ({navigation}) => {
                         Dr. Abdel Garcia
                     </Text>
                     <Text style={styles.appDocInfo}>
-                        Cardiólogo
+                        Prueba de Sangre
                     </Text>
                     <Text style={styles.appClinicInfo}>
                         Hospital del Norte
@@ -58,17 +48,7 @@ const FindScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.appointmentContainer}>
-                <Image
-                    source={require('../assets/userPictures/lady.png')}
-                    resizeMode='contain'
-                    style={{
-                        borderRadius:10,
-                        width: 60,
-                        height: 60,
-                        marginRight:10
-                      
-                    }}
-                  />
+                
                   <View style={styles.appTextCont}>
                     <Text style={styles.appTextStat}>
                         Aceptada
@@ -77,7 +57,7 @@ const FindScreen = ({navigation}) => {
                         Dr. Abdel Garcia
                     </Text>
                     <Text style={styles.appDocInfo}>
-                        Cardiólogo
+                        Prueba de Orina
                     </Text>
                     <Text style={styles.appClinicInfo}>
                         Hospital del Norte
@@ -180,7 +160,7 @@ const styles = StyleSheet.create({
     appointmentContainer:{
         borderRadius:10,
         height:'auto',
-        padding:5,
+        padding:7,
         marginBottom:5,
         backgroundColor:'#262C33',
         flexDirection: 'row'
