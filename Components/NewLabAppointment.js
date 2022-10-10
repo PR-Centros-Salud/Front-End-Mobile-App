@@ -20,6 +20,15 @@ const FindScreen = ({navigation}) => {
         { text: "No", onPress: () => console.log("No Pressed") }
       ]
     );
+
+    const [selected, setSelected] = React.useState("");
+
+    const data = [
+        {key:'1',value:'Prueba de Orina'},
+        {key:'2',value:'Eliza COVID 19'},
+        {key:'3',value:'Prueba de Sangre'},
+        {key:'4',value:'Antígeno Nasal'},
+    ];
   
     return(
         
@@ -88,7 +97,7 @@ const FindScreen = ({navigation}) => {
                 </View>
 
                 <View style={styles.comboBoxContainer}>
-                    <SelectList/>
+                    <SelectList setSelected={setSelected} data={data}/>
                 </View>
 
                 <View style={styles.subTitleContainer}>
@@ -107,7 +116,7 @@ const FindScreen = ({navigation}) => {
                         </Text>
 
                         <Text style={styles.simpleTextDetails}>
-                            Prueba de Orina
+                            {data[setSelected]}
                         </Text>
 
                         <Text style={styles.simpleTextDetails}>
