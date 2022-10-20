@@ -19,9 +19,6 @@ const FindScreen = ({navigation}) => {
     return(
         <View style={styles.mainContainer}>
 
-            <View style={styles.headerContainer}>
-                <Text style={styles.titleHeader}>Detalles de la cita</Text>
-            </View>
 
             <View style={styles.doctorDetailContainer}>
                 <View style={styles.subTitle1}>

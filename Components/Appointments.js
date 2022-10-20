@@ -4,7 +4,6 @@ import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView } f
 const FindScreen = ({navigation}) => {
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>Mis Citas Médicas</Text>
             <View style={styles.containerButtons}>
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.plainText}>Próximas</Text>

@@ -9,7 +9,6 @@ const FindScreen = ({navigation}) => {
 
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>Configuración</Text>
             
             <View style={styles.profileContainer}>
                 <Image
@@ -207,11 +206,11 @@ const styles = StyleSheet.create({
         top:60
     },
     profileContainer:{
-        top:50,
+        top:20,
         height:70,
         width:'88%',
         padding:5,
-        marginBottom:5,
+        marginBottom:0,
         backgroundColor:'transparent',
         flexDirection: 'row'
     },
@@ -231,7 +230,7 @@ const styles = StyleSheet.create({
     },
 
     separator:{
-        top:10,
+        top:0,
         height:1,
         width:'100%',
         backgroundColor:'#7a7a7a'

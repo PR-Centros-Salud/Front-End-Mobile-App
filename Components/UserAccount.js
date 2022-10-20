@@ -9,7 +9,7 @@ const FindScreen = ({navigation}) => {
 
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>Mi Perfil</Text>
+            
             
             <View style={styles.profileContainer}>
                 <Image

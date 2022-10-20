@@ -9,7 +9,6 @@ const FindScreen = ({navigation}) => {
 
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>Cambiar Contraseña</Text>
             
             <View style={styles.profileContainer}>
                 <Image
@@ -120,9 +119,9 @@ const styles = StyleSheet.create({
         top:60
     },
     profileContainer:{
-        top:50,
+        top:20,
         height:120,
-        width:'88%',
+        width:'82%',
         padding:5,
         marginBottom:5,
         backgroundColor:'transparent',

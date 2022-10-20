@@ -4,6 +4,7 @@ import { Dimensions } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import  SelectList  from 'react-native-dropdown-select-list';
 import { ComboBox } from 'react-native-combobox';
+import {Picker} from '@react-native-picker/picker';
 
 const FindScreen = ({navigation}) => {
 
@@ -21,14 +22,9 @@ const FindScreen = ({navigation}) => {
       ]
     );
 
-    const [selected, setSelected] = React.useState("");
+    const [selectedCat, setSelectedCat] = useState();
 
-    const data = [
-        {key:'1',value:'Prueba de Orina'},
-        {key:'2',value:'Eliza COVID 19'},
-        {key:'3',value:'Prueba de Sangre'},
-        {key:'4',value:'Antígeno Nasal'},
-    ];
+   
   
     return(
         
@@ -97,7 +93,17 @@ const FindScreen = ({navigation}) => {
                 </View>
 
                 <View style={styles.comboBoxContainer}>
-                    <SelectList setSelected={setSelected} data={data}/>
+                    <Picker
+                        mode='dropdown'
+                        selectedCat={selectedCat}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSelectedCat(itemValue)
+                        }>
+                        <Picker.Item label="Prueba de Sangre" value="java" />
+                        <Picker.Item label="Prueba de Orina" value="js" />
+                        <Picker.Item label="Eliza COVID 19" value="java" />
+                        <Picker.Item label="Antígeno Nasal" value="js" />
+                    </Picker>
                 </View>
 
                 <View style={styles.subTitleContainer}>
@@ -116,7 +122,7 @@ const FindScreen = ({navigation}) => {
                         </Text>
 
                         <Text style={styles.simpleTextDetails}>
-                            {data[setSelected]}
+                            Prueba de Sangre
                         </Text>
 
                         <Text style={styles.simpleTextDetails}>

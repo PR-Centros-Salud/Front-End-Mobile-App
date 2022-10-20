@@ -9,7 +9,6 @@ const FindScreen = ({navigation}) => {
 
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>Editar Perfil</Text>
             
             <View style={styles.profileContainer}>
                 <Image
@@ -129,10 +128,10 @@ const styles = StyleSheet.create({
         backgroundColor:'transparent',
         height:'20%',
         width:'88%',
-        top:60
+        top:30
     },
     profileContainer:{
-        top:50,
+        top:20,
         height:120,
         width:'88%',
         padding:5,

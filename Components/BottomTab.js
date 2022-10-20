@@ -42,9 +42,19 @@ const AppointmentStack = createStackNavigator();
 
 function AppointmentStackScreen() {
   return(
-    <AppointmentStack.Navigator screenOptions={{headerShown:false}}>
-      <AppointmentStack.Screen name="Appointments" component={Appointments}/>
-      <AppointmentStack.Screen name="AppointmentInfo" component={AppointmentInfo}/>
+    <AppointmentStack.Navigator screenOptions={{
+      headerShown:true, 
+      headerStyle: {
+        backgroundColor: '#121418'
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: '800',
+      },
+      
+      }}>
+      <AppointmentStack.Screen name="Appointments" component={Appointments} options={{ title: 'Mis Citas' }}/>
+      <AppointmentStack.Screen name="AppointmentInfo" component={AppointmentInfo} options={{ title: 'Detalles de la Cita' }}/>
     </AppointmentStack.Navigator>
   )
 };
@@ -62,11 +72,9 @@ function LabStackScreen() {
       headerTitleStyle: {
         fontWeight: '800',
       },
-      headerTitle:{
-        
-      }
+      
       }}>
-      <LabStack.Screen name="LabAppointment" component={LabAppointment} options={{ title: 'Mis Laboratorios',  }}/>
+      <LabStack.Screen name="LabAppointment" component={LabAppointment} options={{ title: 'Mis Laboratorios' }}/>
       <LabStack.Screen name="NewLabAppointment" component={NewLabAppointment} options={{ title: 'Reservar Laboratorio' }}/>
       <LabStack.Screen name="LabAppointmentInfo" component={LabAppointmentInfo} options={{ title: 'Mis Laboratorios' }}/>
     </LabStack.Navigator>
@@ -77,13 +85,23 @@ const SettingsStack = createStackNavigator();
 
 function SettingsStackScreen() {
   return (
-    <SettingsStack.Navigator screenOptions={{headerShown:false}}>
-      <SettingsStack.Screen name="Settings" component={Settings} />
-      <SettingsStack.Screen name="Appointments" component={Appointments} />
-      <SettingsStack.Screen name="UserLocation" component={UserLocation} />
-      <SettingsStack.Screen name="UserAccount" component={UserAccount}/>
-      <SettingsStack.Screen name="UserEdit" component={UserEdit}/>
-      <SettingsStack.Screen name="UserPassword" component={UserPassword}/>
+    <SettingsStack.Navigator screenOptions={{
+      headerShown:true, 
+      headerStyle: {
+        backgroundColor: '#121418'
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: '800',
+      },
+      
+      }}>
+      <SettingsStack.Screen name="Settings" component={Settings} options={{ title: 'Configuración'  }} />
+      <SettingsStack.Screen name="Appointments" component={Appointments} options={{ title: 'Mis Citas' }}/>
+      <SettingsStack.Screen name="UserLocation" component={UserLocation} options={{ title: 'Mi Ubicación'  }}/>
+      <SettingsStack.Screen name="UserAccount" component={UserAccount} options={{ title: 'Mi Perfil'  }}/>
+      <SettingsStack.Screen name="UserEdit" component={UserEdit} options={{ title: 'Editar Perfil'  }}/>
+      <SettingsStack.Screen name="UserPassword" component={UserPassword} options={{ title: 'Cambiar Contraseña'  }}/>
     </SettingsStack.Navigator>
   );
 }

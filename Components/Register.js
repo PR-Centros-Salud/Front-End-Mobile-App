@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigate } from 'react-router-dom';
 import {BrowserRouter, Router, Switch, Route, Routes,  Redirect} from "react-router-dom";
 
-import Register from './Register';
+
 
 export default class App extends React.Component {
     
