@@ -3,29 +3,58 @@ import React, { useState } from "react";
 import { View, Text, Button, TouchableOpacity, Alert, TextInput, StyleSheet, ScrollView} from "react-native";
 
 import { LinearGradient } from 'expo-linear-gradient';
-import { Linking } from 'react-native';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {loginApi} from './api/user_api';
+
+
 
 export default function LogIn(){
   const navigation = useNavigation();
   
-  const [email, setEmail] = useState("");
+ 
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = () => {
-    if(email === "email@gmail.com" && password === "abcabc"){
-      navigation.reset({
-        index:0,
-        routes:[{name:"Home"}],
-      });
-    }else{
-      Alert.alert("Error", "Login info incorrect")
-    }
+  const [checkValidEmail, setCheckValidEmail] = useState(false);
+
+
+  const login = async () => {
+
+    await loginApi({
+      username: username,
+      password: password,
+    }).then(result =>{
+      console.log(result);
+
+     if(result.status == 200) {
+        AsyncStorage.setItem('AccessToken', result.data.access_token);
+        navigation.reset({
+          index:0,
+          routes:[{name:"Home"}],
+        });
+      }else {
+        alert('Incorrect Username or Password');
+      }
+    })
+    .catch(err => {
+      console.error(err);
+    })
+  };
+/* 
+  if(email === "email@gmail.com" && password === "abcabc"){
+    navigation.reset({
+      index:0,
+      routes:[{name:"Home"}],
+    });
+  }else{
+    Alert.alert("Error", "Login info incorrect")
   }
+  */
 
   const register = () => {
     navigation.navigate("Register");
-  }
+  };
 
   return(
     <View style={styles.container}>
@@ -69,8 +98,8 @@ export default function LogIn(){
 <TextInput 
       style={styles.inputText}
       placeholder="Email"
-      onChangeText={(text)=> setEmail(text)}
-      value={email}
+      onChangeText={(text)=> setUserName(text)}
+      value={username}
       />
       <TextInput 
       style={styles.inputText}
