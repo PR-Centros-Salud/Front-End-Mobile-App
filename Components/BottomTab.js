@@ -21,6 +21,7 @@ import AppointmentInfo from './AppointmentInfo';
 import LabAppointment from './LabAppointment';
 import NewLabAppointment from './NewLabAppointment';
 import LabAppointmentInfo from './LabAppointmentInfo';
+import LogIn from "./LogIn";
 
 const DashboardStack = createStackNavigator();
 
@@ -102,6 +103,8 @@ function SettingsStackScreen() {
       <SettingsStack.Screen name="UserAccount" component={UserAccount} options={{ title: 'Mi Perfil'  }}/>
       <SettingsStack.Screen name="UserEdit" component={UserEdit} options={{ title: 'Editar Perfil'  }}/>
       <SettingsStack.Screen name="UserPassword" component={UserPassword} options={{ title: 'Cambiar Contraseña'  }}/>
+      <SettingsStack.Screen name="LogIn" component={LogIn}/>
+
     </SettingsStack.Navigator>
   );
 }

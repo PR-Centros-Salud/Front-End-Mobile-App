@@ -3,7 +3,11 @@ import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView } f
 import { useNavigation } from "@react-navigation/native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LogIn from './LogIn';
 
+
+        
+        
 
 const FindScreen = ({navigation}) => {
 
@@ -150,6 +154,30 @@ const FindScreen = ({navigation}) => {
                     </Text>
                     
                   </View>
+                    
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.optionsContainer} onPress={() => navigation.navigate('LogIn')}>
+                <Image
+                    source={require('../assets/Icons/location.png')}
+                    resizeMode='contain'
+                    style={{
+                        tintColor:'#FFF',
+                        borderRadius:5,
+                        width: 35,
+                        height: 35,
+                        marginRight:10,
+                        padding:4
+                      
+                    }}
+                  />
+                  <View style={styles.optionsTextCont}>
+                    <Text style={styles.optionsText}>
+                        Cerrar Sesión
+                    </Text>
+                    
+                  </View>
+                  
                     
                 </TouchableOpacity>
 
