@@ -22,6 +22,7 @@ import LabAppointment from './LabAppointment';
 import NewLabAppointment from './NewLabAppointment';
 import LabAppointmentInfo from './LabAppointmentInfo';
 import LogIn from "./LogIn";
+import SplashScreen from "./SplashScreen";
 
 const DashboardStack = createStackNavigator();
 
@@ -103,7 +104,7 @@ function SettingsStackScreen() {
       <SettingsStack.Screen name="UserAccount" component={UserAccount} options={{ title: 'Mi Perfil'  }}/>
       <SettingsStack.Screen name="UserEdit" component={UserEdit} options={{ title: 'Editar Perfil'  }}/>
       <SettingsStack.Screen name="UserPassword" component={UserPassword} options={{ title: 'Cambiar Contraseña'  }}/>
-      <SettingsStack.Screen name="LogIn" component={LogIn}/>
+      <SettingsStack.Screen name="SplashScreen" component={SplashScreen}/>
 
     </SettingsStack.Navigator>
   );
@@ -114,8 +115,7 @@ const Tab = createBottomTabNavigator();
 
 const BottomTab = () => {
     return(
-        <Tab.Navigator screenOptions={{ 
-            
+        <Tab.Navigator screenOptions={{             
             headerShown: false,
             tabBarStyle:{
               position: 'absolute',

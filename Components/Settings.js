@@ -4,9 +4,15 @@ import { useNavigation } from "@react-navigation/native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LogIn from './LogIn';
+import {DevSettings} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-        
+const reload = () => {
+
+    AsyncStorage.removeItem('AccessToken');
+    DevSettings.reload();
+}
         
 
 const FindScreen = ({navigation}) => {
@@ -157,7 +163,7 @@ const FindScreen = ({navigation}) => {
                     
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.optionsContainer} onPress={() => navigation.navigate('LogIn')}>
+                <TouchableOpacity style={styles.optionsContainer} onPress={() => reload()}>
                 <Image
                     source={require('../assets/Icons/location.png')}
                     resizeMode='contain'
