@@ -6,7 +6,7 @@ axios.defaults.headers["Access-Control-Allow-Origin"] = "*"
 
 export const loginApi = async (data) => {
     try {
-        const url = 'http://192.168.0.207:8000/person/login'
+        const url = 'http://192.168.0.212:8000/person/login'
         const formData = new FormData()
         formData.append("username", data.username)
         formData.append("password", data.password)

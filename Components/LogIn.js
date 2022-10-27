@@ -22,15 +22,16 @@ export default function LogIn(){
 
 
   const login = async () => {
-
+    console.log(username, password)
     await loginApi({
       username: username,
       password: password,
+      
     }).then(result =>{
       console.log(result);
 
     if(result != null){
-     if(result.status == 200) {
+      if(result.status == 200) {
       //en principio deberia funcionar con esto
         const credentials = jwtDecode(result.data.access_token);
 
@@ -44,9 +45,9 @@ export default function LogIn(){
           alert("La aplicación esta hecha para clientes, si es administrador o médico, por favor ingrese a la pagina web");
         }
 
-      }else {
-        alert('Contraseña o usuario incorrecto');
       }
+    }else {
+      alert("Contraseña o usuario incorrecto");
     }
   })
     .catch(err => {

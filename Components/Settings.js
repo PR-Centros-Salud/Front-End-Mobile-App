@@ -163,6 +163,8 @@ const FindScreen = ({navigation}) => {
                     
                 </TouchableOpacity>
 
+                <View style={styles.separator2}/>
+
                 <TouchableOpacity style={styles.optionsContainer} onPress={() => reload()}>
                 <Image
                     source={require('../assets/Icons/location.png')}

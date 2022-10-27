@@ -107,7 +107,6 @@ export default function SplashScreen() {
    useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem('AccessToken');
-      console.log(token);
       if (token) {
         setToken(token);
       }
