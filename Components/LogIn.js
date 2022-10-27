@@ -7,6 +7,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {loginApi} from './api/user_api';
 
+import jwtDecode from "jwt-decode";
+
 
 
 export default function LogIn(){
@@ -27,16 +29,26 @@ export default function LogIn(){
     }).then(result =>{
       console.log(result);
 
+    if(result != null){
      if(result.status == 200) {
-        AsyncStorage.setItem('AccessToken', result.data.access_token);
-        navigation.reset({
-          index:0,
-          routes:[{name:"Home"}],
-        });
+      //en principio deberia funcionar con esto
+        const credentials = jwtDecode(result.data.access_token);
+
+        if (credentials.discriminator === "client") {
+          AsyncStorage.setItem('AccessToken', result.data.access_token);
+          navigation.reset({
+            index:0,
+            routes:[{name:"Home"}],
+          });
+        }else{
+          alert("La aplicación esta hecha para clientes, si es administrador o médico, por favor ingrese a la pagina web");
+        }
+
       }else {
-        alert('Incorrect Username or Password');
+        alert('Contraseña o usuario incorrecto');
       }
-    })
+    }
+  })
     .catch(err => {
       console.error(err);
     })
