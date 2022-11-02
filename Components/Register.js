@@ -10,7 +10,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 export default function Register() {
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
+  const [selectedDate, setSelectedDate] = useState(null);
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -20,7 +20,8 @@ export default function Register() {
   };
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
+    setSelectedDate(date);
+    //console.warn("A date has been picked: ", date);
     hideDatePicker();
   };
     return (
@@ -50,18 +51,24 @@ export default function Register() {
 
             <TextInput  
             style={styles.inputText}
-            placeholder="Nombres" 
+            placeholder="Nombre" 
             placeholderTextColor="#fff"
             onChangeText={text => this.setState({email:text})}/>
 
             <TextInput  
             style={styles.inputText}
-            placeholder="Apellidos" 
+            placeholder="Apellido" 
+            placeholderTextColor="#fff"
+            onChangeText={text => this.setState({email:text})}/>
+
+            <TextInput  
+            style={styles.inputText}
+            placeholder="Segundo Apellido" 
             placeholderTextColor="#fff"
             onChangeText={text => this.setState({email:text})}/>
 
             <TouchableOpacity style={styles.inputText} onPress={showDatePicker}>
-             <Text style={styles.inputText}>Fecha Nacimiento</Text>
+             <Text style={styles.inputTextDate} >{selectedDate ? selectedDate.toLocaleDateString() : 'Fecha de Nacimiento'}</Text>
             </TouchableOpacity>
 
             <TextInput  
@@ -99,12 +106,6 @@ export default function Register() {
         <TouchableOpacity style={styles.loginBtn}>
           <Text style={styles.loginText}>Registrarse</Text>
         </TouchableOpacity>
-
-        
-        <Text style={styles.plainText}>
-            ¿No tienes una cuenta? Registrate
-        </Text>
-        
         
       </ScrollView>
       
@@ -116,15 +117,9 @@ export default function Register() {
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
         style={{
-          height:300,
-          width:'100%',
-          color:'black',
+          height: 200,
         }}
-        pickerContainerStyleIOS={{
-          height:300,
-          width:'100%',
-          text:'black',
-        }}
+
         display={Platform.OS === 'ios' ? 'spinner' : 'default'}
       />
       </View>
@@ -155,6 +150,19 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor:'#262C33',
     color:"white",
+    alignItems:"center",
+    justifyContent:"center",
+    alignSelf:'center'
+  },
+  inputTextDate:{
+    left:0,
+    height:30,
+    width:300,
+    marginBottom:10,
+    borderRadius:10,
+    padding: 10,
+    backgroundColor:'transparent',
+    color:'#fff',
     alignItems:"center",
     justifyContent:"center",
     alignSelf:'center'
