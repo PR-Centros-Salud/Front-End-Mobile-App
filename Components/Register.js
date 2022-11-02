@@ -1,15 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, Text, Button, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import { Link } from "react-router-dom";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigate } from 'react-router-dom';
 import {BrowserRouter, Router, Switch, Route, Routes,  Redirect} from "react-router-dom";
 
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
+export default function Register() {
 
-export default class App extends React.Component {
-    
-  render(){
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    console.warn("A date has been picked: ", date);
+    hideDatePicker();
+  };
     return (
       <View style={styles.container}>
       <LinearGradient
@@ -46,6 +59,10 @@ export default class App extends React.Component {
             placeholder="Apellidos" 
             placeholderTextColor="#fff"
             onChangeText={text => this.setState({email:text})}/>
+
+            <TouchableOpacity style={styles.inputText} onPress={showDatePicker}>
+             <Text style={styles.inputText}>Fecha Nacimiento</Text>
+            </TouchableOpacity>
 
             <TextInput  
             style={styles.inputText}
@@ -92,10 +109,26 @@ export default class App extends React.Component {
       </ScrollView>
       
       </LinearGradient>
-      
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        isDarkModeEnabled={true}
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+        style={{
+          height:300,
+          width:'100%',
+          color:'black',
+        }}
+        pickerContainerStyleIOS={{
+          height:300,
+          width:'100%',
+          text:'black',
+        }}
+        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+      />
       </View>
     );
-  }
 }
 
 const BGColor = "#1B1F24"
