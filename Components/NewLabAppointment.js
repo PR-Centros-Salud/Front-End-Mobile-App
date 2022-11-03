@@ -4,7 +4,6 @@ import { Dimensions } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import  SelectList  from 'react-native-dropdown-select-list';
 import { ComboBox } from 'react-native-combobox';
-import {Picker} from '@react-native-picker/picker';
 
 const FindScreen = ({navigation}) => {
 
