@@ -1,12 +1,13 @@
 import ApiManager from './ApiManager';
 import FormData from 'form-data';
 import axios from 'axios';
+import {BASE_PATH} from './config';
 
 axios.defaults.headers["Access-Control-Allow-Origin"] = "*"
 
 export const loginApi = async (data) => {
     try {
-        const url = 'http://192.168.1.3:8000/person/login'
+        const url = `${BASE_PATH}/person/login`
         const formData = new FormData()
         formData.append("username", data.username)
         formData.append("password", data.password)
