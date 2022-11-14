@@ -67,8 +67,6 @@ export default function Register() {
       console.log(response)
 
       if (response?.status == 200) {
-        //alert("Usuario creado correctamente");
-        //navigation.navigate("LogIn");
         reload();
       } else {
         if (response?.data) {
@@ -81,17 +79,26 @@ export default function Register() {
     }
   });
 
+  //recibir la localizacion actual del usuatio
+
   useEffect(() => {
     (async ()=>{
+      //recibir permisos de localizacion
+
       let{status} = await Location.requestForegroundPermissionsAsync();
       if(status !== 'granted'){
         alert("Permiso denegado");
         return;
       }
+
+      //recibir latitud y longitud
+      
       let location = await Location.getCurrentPositionAsync({});
       formik.setFieldValue('lat', location.coords.latitude);
       formik.setFieldValue('lng', location.coords.longitude);
-      //alert("location" + location.coords.latitude + " " + location.coords.longitude);
+
+      //recibir las provincias
+
       const provinces = await getProvincesApi();
       if(provinces?.data){
         const pro = provinces.data.map(e => {
@@ -105,6 +112,8 @@ export default function Register() {
     })()
   }, []);
 
+  //datos del dropdown de genero
+
   const data = [
     { label: 'Masculino', value: 'M' },
     { label: 'Femenino', value: 'F' },
@@ -112,6 +121,8 @@ export default function Register() {
   ];
 
   const [isFocus, setIsFocus] = useState(false);
+
+  //manejo de la fecha de nacimiento
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -126,11 +137,11 @@ export default function Register() {
   const handleConfirm = (date) => {
     
     formik.setFieldValue('birthdate', `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
-    //console.warn("A date has been picked: ", date);
     hideDatePicker();
   };
 
 
+  //validacion de contraseña
 
   const formValidation = async () => {
     let errorFlag = false;
