@@ -4,42 +4,17 @@ import { View, Text, Image, TouchableOpacity, Alert, TextInput, StyleSheet, Scro
 const FindScreen = ({navigation}) => {
     return(
         <View style={styles.mainContainer}>
-
-            <View style={styles.headerContainer}>
-                <Text style={styles.titleHeader}>Doctores</Text>
-            </View>
-            
             <View style={styles.searchBarContainer}>
+                <Image  
+                    source={require('../assets/Icons/search.png')}
+                    resizeMode='contain'
+                    style={styles.searchBarIcon}/>
                 <TextInput style={styles.searchBar}
                     placeholder="Escribe lo que deseas buscar..."
                     placeholderTextColor="#a6a6a6"
                     autoCapitalize="none"
                     autoCorrect={false}
                 />
-            </View>
-
-            <View style={styles.scrollHorizontalContainer}>
-                <ScrollView 
-                    horizontal={true} 
-                    style={styles.scrollViewHorizontal}>
-
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText}>Cardiología</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.button2}>
-                        <Text style={styles.buttonText}>Pediatría</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.button2}>
-                        <Text style={styles.buttonText}>Neurología</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.button2}>
-                        <Text style={styles.buttonText}>Odontología</Text>
-                    </TouchableOpacity>
-
-                </ScrollView>
             </View>
 
             <View styles={styles.scrollVerticalContainer}>
@@ -158,18 +133,31 @@ const styles = StyleSheet.create({
         fontWeight:'500',
         fontSize: 27,
     },
+    
     searchBarContainer:{
         width:'100%',
         height:'auto',
-        marginTop:10
+        marginTop:10,
+        marginBottom:10,
+        borderRadius:12,
+        padding:10,
+        backgroundColor:'#262C33',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
     },
     searchBar:{
         margin:'auto',
-        width:'100%',
+        width:'91%',
         height:40,
         padding:7,
         borderRadius:12,
-        backgroundColor:'#262C33'
+        backgroundColor:'transparent'
+    },
+    searchBarIcon:{
+        width:25,
+        height:25,
+        tintColor:'#c7c7c7'
     },
     scrollHorizontalContainer:{
         marginTop:10,

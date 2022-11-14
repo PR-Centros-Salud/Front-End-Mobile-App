@@ -28,14 +28,22 @@ const DashboardStack = createStackNavigator();
 
 function DashboardStackScreen() {
   return(
-    <DashboardStack.Navigator screenOptions={{headerShown:false}}>
-      <DashboardStack.Screen name="DashBoard" component={DashBoard}/>
-      <DashboardStack.Screen name="LabAppointment" component={LabAppointment}/>
-      <DashboardStack.Screen name="NewLabAppointment" component={NewLabAppointment}/>
-      <DashboardStack.Screen name="LabAppointmentInfo" component={LabAppointmentInfo}/>
+    <DashboardStack.Navigator screenOptions={{
+      headerShown:true, 
+      headerStyle: {
+        backgroundColor: '#121418'
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: '800',
+      },}}>
+      <DashboardStack.Screen name="DashBoard" component={DashBoard} options={{ title: 'Inicio' }}/>
+      <DashboardStack.Screen name="LabAppointment" component={LabAppointment} options={{ title: 'Laboratorios' }}/>
+      <DashboardStack.Screen name="NewLabAppointment" component={NewLabAppointment} options={{ title: 'Nuevo Laboratorio' }}/>
+      <DashboardStack.Screen name="LabAppointmentInfo" component={LabAppointmentInfo} options={{ title: 'Detalles' }}/>
       <DashboardStack.Screen name="DoctorList" component={DoctorList} options={{title:"Doctores"}}/>
-      <DashboardStack.Screen name="DoctorDetails" component={DoctorDetails}/>
-      <DashboardStack.Screen name="DoctorAppointment" component={DoctorAppointment}/>
+      <DashboardStack.Screen name="DoctorDetails" component={DoctorDetails} options={{ title: 'Informacion' }}/>
+      <DashboardStack.Screen name="DoctorAppointment" component={DoctorAppointment} options={{ title: 'Reservar una Cita' }}/>
     </DashboardStack.Navigator>
   )
 }

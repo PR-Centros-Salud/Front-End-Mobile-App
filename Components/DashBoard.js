@@ -5,18 +5,6 @@ import { withSafeAreaInsets } from 'react-native-safe-area-context';
 const FindScreen = ({navigation}) => {
     return(
         <View style={styles.mainContainer}>
-            <View style={styles.greetContainer}>
-                <View style={styles.greetTextContainer}>
-                    <Text style={styles.greetText}>
-                        Hola, {userName}!
-                    </Text>
-                </View>
-                <View style={styles.greetUserPhotoContainer}>
-                    <Image
-                    source={require('../assets/userPictures/lady.png')} 
-                    style={styles.userPhoto}/>
-                </View>
-            </View>
 
             <View style={styles.mainTitleContainer}>
                 <View style={styles.greetTitleContainer}>

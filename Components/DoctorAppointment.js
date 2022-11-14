@@ -7,11 +7,7 @@ const FindScreen = ({navigation}) => {
     return(
         
         <View style={styles.mainContainer}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.textTitle}>
-                    Reservar una Cita
-                </Text>
-            </View>
+            
             <ScrollView style={styles.scrollViewContainer}>
                 <View style={styles.subTextContainer}>
                     <Text style={styles.subText}>
