@@ -1,7 +1,28 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { View, Text, Image, TouchableOpacity, Alert, TextInput, StyleSheet, ScrollView} from "react-native";
-
+import { ActivityIndicator } from "react-native";
+import { getMedicalPersonalByIdApi, getMedicalPersonalByProvinceApi } from "./api/medicalPersonal";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const FindScreen = ({navigation}) => {
+
+    const [isLoading, setLoading] = useState(true);
+    const [doctors, setDoctors] = useState([]);
+    const [search, setSearch] = useState('');
+
+    useEffect(() => { 
+        (async () => {
+            setLoading(true);
+            const response = await getMedicalPersonalByProvinceApi();
+            if (response?.data) {
+                setDoctors(response.data);
+            } else {
+                alert("Error al cargar los datos");
+            }
+            setLoading(false);
+        })()
+    }, []);
+
+
     return(
         <View style={styles.mainContainer}>
             <View style={styles.searchBarContainer}>
@@ -18,94 +39,30 @@ const FindScreen = ({navigation}) => {
             </View>
 
             <View styles={styles.scrollVerticalContainer}>
-                <ScrollView style={styles.scrollViewVertical}>
-                    
-                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('DoctorDetails')}>
-                        <Image
-                            source={require('../assets/userPictures/lady.png')}
-                            resizeMode='contain'
-                            style={styles.doctorImage}
-                        />
-                        <View style={styles.doctorTextContainer}>
-                            
-                            <Text style={styles.doctorName}>
-                                Dr. Abdel Garcia
-                            </Text>
-                            <Text style={styles.doctorInfo}>
-                                Cardiólogo | Hospital del Norte
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('DoctorDetails')}>
-                        <Image
-                            source={require('../assets/userPictures/lady.png')}
-                            resizeMode='contain'
-                            style={styles.doctorImage}
-                        />
-                        <View style={styles.doctorTextContainer}>
-                            
-                            <Text style={styles.doctorName}>
-                                Dr. Abdel Garcia
-                            </Text>
-                            <Text style={styles.doctorInfo}>
-                                Cardiólogo | Hospital del Norte
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('DoctorDetails')}>
-                        <Image
-                            source={require('../assets/userPictures/lady.png')}
-                            resizeMode='contain'
-                            style={styles.doctorImage}
-                        />
-                        <View style={styles.doctorTextContainer}>
-                            
-                            <Text style={styles.doctorName}>
-                                Dr. Abdel Garcia
-                            </Text>
-                            <Text style={styles.doctorInfo}>
-                                Cardiólogo | Hospital del Norte
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('DoctorDetails')}>
-                        <Image
-                            source={require('../assets/userPictures/lady.png')}
-                            resizeMode='contain'
-                            style={styles.doctorImage}
-                        />
-                        <View style={styles.doctorTextContainer}>
-                            
-                            <Text style={styles.doctorName}>
-                                Dr. Abdel Garcia
-                            </Text>
-                            <Text style={styles.doctorInfo}>
-                                Cardiólogo | Hospital del Norte
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('DoctorDetails')}>
-                        <Image
-                            source={require('../assets/userPictures/lady.png')}
-                            resizeMode='contain'
-                            style={styles.doctorImage}
-                        />
-                        <View style={styles.doctorTextContainer}>
-                            
-                            <Text style={styles.doctorName}>
-                                Dr. Abdel Garcia
-                            </Text>
-                            <Text style={styles.doctorInfo}>
-                                Cardiólogo | Hospital del Norte
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                </ScrollView>
+                {isLoading ? (<ActivityIndicator size="large" color="#E84949" />) :
+                    (<ScrollView style={styles.scrollViewVertical}>
+                    {doctors.map((doctor) => {
+                        return (
+                            <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate({name:'DoctorDetails', params: { doctor:doctor}})}>
+                            <Image
+                                source={require('../assets/Icons/docIcon.png')}
+                                resizeMode='contain'
+                                style={styles.doctorImage}
+                                tintColor='#fff'
+                            />
+                            <View style={styles.doctorTextContainer}>
+                        
+                                <Text style={styles.doctorName}>
+                                    Dr. {doctor?.first_name} {doctor?.last_name} {doctor?.second_last_name ? doctor?.second_last_name : ''}
+                                </Text>
+                                <Text style={styles.doctorInfo}>
+                                        {doctor?.contract[0]?.role} | { doctor?.institution?.name}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                        )
+                    })}
+                </ScrollView>)}
             </View>
         </View>
     );
@@ -208,16 +165,17 @@ const styles = StyleSheet.create({
         borderRadius:10,
         height:'auto',
         width:335,
-        padding:5,
+        padding:10,
         marginBottom:10,
         backgroundColor:'#262C33',
         flexDirection: 'row'
     },
     doctorImage:{
         borderRadius:10,
-        width: 60,
-        height: 60,
-        marginRight:10
+        width: 50,
+        height: 50,
+        marginRight:10, 
+        tintColor:'#fff'
     },
     doctorTextContainer:{
         backgroundColor:'transparent',

@@ -33,12 +33,13 @@ export const loginApi = async (data) => {
 };
 
 
-export const authFetch = async (url, params, logout) => {
-    const token = AsyncStorage.getItem("AccessToken")
+export const authFetch = async (url, params) => {
+    const token = await AsyncStorage.getItem('AccessToken');
     if (!token) {
-        logout()
+        return null
     }
     else {
+        console.log(token, 'aaa')
         const paramsTemp = {
             data: params.body,
             headers: {

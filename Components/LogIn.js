@@ -22,14 +22,12 @@ export default function LogIn(){
 
 
   const login = async () => {
-    console.log(username, password)
     await loginApi({
       username: username,
       password: password,
       
     }).then(result =>{
-      console.log(result);
-
+      console.log('ola')
     if(result != null){
       if(result.status == 200) {
       //en principio deberia funcionar con esto
