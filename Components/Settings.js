@@ -92,28 +92,7 @@ const FindScreen = ({navigation}) => {
                     
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.optionsContainer}>
-                <Image
-                    source={require('../assets/Icons/medicine.png')}
-                    resizeMode='contain'
-                    style={{
-                        tintColor:'#FFF',
-                        borderRadius:5,
-                        width: 35,
-                        height: 35,
-                        marginRight:10,
-                        padding:4
-                      
-                    }}
-                  />
-                  <View style={styles.optionsTextCont}>
-                    <Text style={styles.optionsText}>
-                        Mis Compras
-                    </Text>
-                    
-                  </View>
-                    
-                </TouchableOpacity>
+                
 
                 <TouchableOpacity style={styles.optionsContainer}>
                 <Image
@@ -243,7 +222,7 @@ const styles = StyleSheet.create({
     },
     profileContainer:{
         top:20,
-        height:70,
+        height:50,
         width:'88%',
         padding:5,
         marginBottom:0,

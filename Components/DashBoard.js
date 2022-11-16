@@ -29,15 +29,15 @@ const FindScreen = ({navigation}) => {
             </View>
             <View style={styles.optionsContainer}>
                 <View style={styles.optionBox}>
-                    <TouchableOpacity style={styles.optionCircle2} onPress={() => navigation.navigate('DoctorAppointment')}>
+                    <TouchableOpacity style={styles.optionCircle} onPress={() => navigation.navigate('Appointments')}>
                         <Image 
-                            source={require('../assets/Icons/syringe.png')}
+                            source={require('../assets/Icons/health.png')}
                             resizeMode='contain'
                             style={styles.optionsImage}
                         />
                     </TouchableOpacity>
                     <Text style={styles.textOption}>
-                        Reservar Cita
+                        Mis Citas
                     </Text>
                 </View>
                 
@@ -210,6 +210,7 @@ const styles = StyleSheet.create({
         width:65,
         padding:10,
         alignItems:'center',
+        justifyContent:'center',
         borderRadius:50,
         backgroundColor:'#262C33'
     },

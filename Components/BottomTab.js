@@ -40,6 +40,8 @@ function DashboardStackScreen() {
         fontWeight: '800',
       },}}>
       <DashboardStack.Screen name="DashBoard" component={DashBoard} options={{ title: 'Inicio' }}/>
+      <DashboardStack.Screen name="Appointments" component={Appointments} options={{ title: 'Mis Citas' }}/>
+    
       <DashboardStack.Screen name="LabAppointment" component={LabAppointment} options={{ title: 'Laboratorios' }}/>
       <DashboardStack.Screen name="NewLabAppointment" component={NewLabAppointment} options={{ title: 'Nuevo Laboratorio' }}/>
       <DashboardStack.Screen name="LabAppointmentInfo" component={LabAppointmentInfo} options={{ title: 'Detalles' }}/>

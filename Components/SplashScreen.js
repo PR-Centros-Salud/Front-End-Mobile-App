@@ -11,9 +11,9 @@ import LogIn from './LogIn';
 
 const BGColor = "#121418"
 
+
 export default function SplashScreen() {
-
-
+    console.disableYellowBox = true;
     const [token, setToken] = useState(null);
 
 

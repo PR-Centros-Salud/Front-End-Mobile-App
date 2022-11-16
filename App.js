@@ -10,10 +10,16 @@ import Home from './Components/Home';
 import Settings from './Components/Settings';
 import Appointments from './Components/Appointments';
 
+import { View, LogBox } from "react-native";
+ 
+LogBox.ignoreAllLogs();
+
 const Stack = createNativeStackNavigator();
 
 export default function App(){
+  console.disableYellowBox = true;
   return (
+    
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown:false}}>
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
