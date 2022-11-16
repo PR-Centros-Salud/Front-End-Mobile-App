@@ -149,16 +149,25 @@ const FindScreen = ({route, navigation}) => {
                 <ScrollView style={styles.scrollViewContainer}>
                     {!loading && (
                         <>
-                            <View style={styles.subTextContainer}>
-                                <Text style={styles.subText}>
-                                    Fecha
-                                </Text>
-                            </View>
+                            
                             <TouchableOpacity style={styles.buttonDate} onPress={showDatePicker}>
                                 <Text style={styles.buttonDateText}>
                                     Seleccione una fecha.
                                 </Text>
                             </TouchableOpacity>
+                            <View style={styles.subTextContainerMain}>
+                                <View style={styles.subTextContainer}>
+                                    <Text style={styles.subText}>
+                                        Fecha:
+                                    </Text>
+                                </View>
+                                <View style={styles.subTextContainer2}>
+                                    <Text style={styles.subText}>
+                                        {`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`}
+                                    </Text>
+                                </View>
+                            </View>
+                            
                             <DateTimePickerModal
                                 isVisible={isDatePickerVisible}
                                 mode="date"
@@ -174,13 +183,9 @@ const FindScreen = ({route, navigation}) => {
                     )}
                     
                     
-                    <View style={styles.subTextContainer}>
-                        <Text style={styles.subText}>
-                        {`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`}
-                        </Text>
-                    </View>
+                    
                     <View style={styles.scheduleOptionsContainer}>
-                        <ScrollView horizontal="true">
+                        <ScrollView style={styles.scrollVHorizontal} horizontal="true">
                             <View>
                             {availableTimes != null && !loading ? (
                                 <>
@@ -197,7 +202,7 @@ const FindScreen = ({route, navigation}) => {
                                             })}
                                         </View>
                                     ): (
-                                    <Text style = {styles.plainText} >
+                                    <Text style={styles.subtext} >
                                         No hay horarios disponibles para esta fecha.
                                     </Text>
                                 )}
@@ -286,16 +291,32 @@ const styles = StyleSheet.create({
     },
     scrollViewContainer:{
         width:'100%',
-        marginTop:20,
+        marginTop:0,
     },
-    subTextContainer:{
+    subTextContainerMain:{
         width:'100%',
         marginBottom:10,
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
+        flexDirection:'row'
+    },
+    subTextContainer:{
+        width:'25%',
+        marginBottom:10,
+        backgroundColor:'transparent',
+    },
+    subTextContainer2:{
+        width:'75%',
+        marginBottom:10,
+        backgroundColor:'transparent',
     },
     subText:{
-        color:'white',
-        fontSize:17
+        color:'#fff',
+        fontSize:18,
+        fontWeight:'bold',
+    },
+    scrollVHorizontal:{
+        width:'100%',
+        backgroundColor:'transparent'
     },
     optionContainer:{
         flexDirection:'row',
@@ -308,7 +329,7 @@ const styles = StyleSheet.create({
         borderRadius:10,
         height:50,
         justifyContent:"center",
-        marginTop:20,
+        marginTop:0,
         marginBottom:10,
         alignItems:"center",
         justifyContent:"center",
