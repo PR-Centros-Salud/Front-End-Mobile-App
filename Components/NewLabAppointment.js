@@ -208,11 +208,7 @@ const FindScreen = ({route, navigation}) => {
 
                                 display="inline"
                             />
-                                <View style={styles.subTextContainer}>
-                                    <Text style={styles.subText}>
-                                    {`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`}
-                                    </Text>
-                                </View>
+                                
                             </>
                         )}
 
@@ -234,7 +230,7 @@ const FindScreen = ({route, navigation}) => {
                                             })}
                                         </View>
                                     ): (
-                                    <Text style = {styles.plainText} >
+                                    <Text style={styles.subText1} >
                                         No hay horarios disponibles para esta fecha.
                                     </Text>
                                 )}
@@ -352,6 +348,9 @@ const styles = StyleSheet.create({
         color:'#fff',
         fontSize:18,
         fontWeight:'bold',
+    },
+    subText1:{
+        color:'white'
     },
     scrollVHorizontal:{
         width:'100%',

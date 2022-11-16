@@ -202,7 +202,7 @@ const FindScreen = ({route, navigation}) => {
                                             })}
                                         </View>
                                     ): (
-                                    <Text style={styles.subtext} >
+                                    <Text style={styles.subText1} >
                                         No hay horarios disponibles para esta fecha.
                                     </Text>
                                 )}
@@ -313,6 +313,9 @@ const styles = StyleSheet.create({
         color:'#fff',
         fontSize:18,
         fontWeight:'bold',
+    },
+    subText1:{
+        color:'white'
     },
     scrollVHorizontal:{
         width:'100%',
