@@ -88,7 +88,7 @@ export default function LogIn(){
         alignItems:"center",
         justifyContent:"center",
         alignSelf:'center'
-      }}>Cuida tu salúd, cuida tu vida.</Text>
+      }}>Cuida tu salud, cuida tu vida.</Text>
 
       <Text style={{
         left:0,

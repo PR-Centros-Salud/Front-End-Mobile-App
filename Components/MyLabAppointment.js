@@ -39,13 +39,18 @@ const FindScreen = ({route,navigation}) => {
     return(
         <View style={styles.container}>
             <View style={styles.containerButtons}>
-                <TouchableOpacity style={tab == 1 ? styles.button : styles.button2} onPress={() => setTab(1)}>
-                    <Text style={styles.plainText}>Próximas</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={tab == 2 ? styles.button : styles.button2} onPress={() =>setTab(2)}>
-                    <Text style={styles.plainText}>Pasadas</Text>
-                </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={tab == 1 ? styles.button : styles.button2} onPress={() => setTab(1)}>
+                        <Text style={styles.plainText}>Próximas</Text>
+                    </TouchableOpacity>
+                </View>
+                
+                <View style={styles.button2Container}>
+                    <TouchableOpacity style={tab == 2 ? styles.button : styles.button2} onPress={() =>setTab(2)}>
+                        <Text style={styles.plainText}>Pasadas</Text>
+                    </TouchableOpacity>
+                </View>
+                
             </View>
             
             <Text style={styles.subText}>Hoy día - {`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`}</Text>
@@ -152,35 +157,41 @@ const styles = StyleSheet.create({
     },
     containerButtons:{
         flexDirection: 'row',
-        width:'90%',
+        width:'100%',
         height: 60,
         top:30,
         alignItems:"center",
         justifyContent:"center",
         alignSelf:'center'
     },
+    buttonContainer:{
+        height:55,
+        width:'50%',
+        padding:5,
+        backgroundColor:'transparent'
+    },
     button:{
-        width:150,
+        width:'90%',
         backgroundColor:"#E84949",
         borderRadius:10,
         height:45,
-        marginTop:10,
-        marginBottom:10,
-        marginRight:30,
         alignItems:"center",
         justifyContent:"center",
         alignSelf:'center'
     },
-
+    button2Container:{
+        height:55,
+        width:'50%',
+        padding:5,
+        backgroundColor:'transparent'
+    },
     button2:{
-        width:150,
+        width:'90%',
         backgroundColor:"transparent",
         borderRadius:10,
         borderWidth:1,        
         borderColor:'#FFF',
         height:45,
-        marginTop:10,
-        marginBottom:10,
         alignItems:"center",
         justifyContent:"center",
         alignSelf:'center'
