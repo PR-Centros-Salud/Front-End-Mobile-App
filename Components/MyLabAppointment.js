@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
         width:180
     },
     appTextStat:{
-        color:'green'
+        color:'#7a7a7a'
     },
     appDocInfo:{
         fontSize:12,

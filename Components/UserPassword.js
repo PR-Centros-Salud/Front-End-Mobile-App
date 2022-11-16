@@ -81,6 +81,7 @@ const FindScreen = ({navigation}) => {
                     placeholder="Antigua contraseña" 
                     placeholderTextColor="#fff"
                     value={formik.values.oldPassword}
+                    secureTextEntry={true}
                     onChangeText={formik.handleChange('oldPassword')}/>
 
                     <TextInput  
@@ -88,6 +89,7 @@ const FindScreen = ({navigation}) => {
                     placeholder="Nueva Contraseña"
                     values={formik.values.newPassword}
                     placeholderTextColor="#fff"
+                    secureTextEntry={true}
                     onChangeText={ formik.handleChange('newPassword')} />
 
                     <TextInput  
@@ -95,6 +97,7 @@ const FindScreen = ({navigation}) => {
                     placeholder="Confirmar Contraseña"
                     value={formik.values.confirmPassword}        
                     placeholderTextColor="#fff"
+                    secureTextEntry={true}
                     onChangeText={formik.handleChange('confirmPassword')}/>
 
                     <TouchableOpacity style={styles.loginBtn} onPress={formik.handleSubmit}>

@@ -70,7 +70,7 @@ const FindScreen = ({navigation}) => {
 
                 <TouchableOpacity style={styles.optionsContainer} onPress={() => navigation.navigate('UserPassword')}>
                     <Image
-                    source={require('../assets/Icons/calendarIcon.png')}
+                    source={require('../assets/Icons/changePass.png')}
                     resizeMode='contain'
                     style={{
                         tintColor:'#FFF',

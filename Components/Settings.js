@@ -167,7 +167,7 @@ const FindScreen = ({navigation}) => {
 
                 <TouchableOpacity style={styles.optionsContainer} onPress={() => reload()}>
                 <Image
-                    source={require('../assets/Icons/location.png')}
+                    source={require('../assets/Icons/logOut.png')}
                     resizeMode='contain'
                     style={{
                         tintColor:'#FFF',

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 axios.defaults.headers["Access-Control-Allow-Origin"] = "*"
 
-export const BASE_PATH = "http://192.168.1.3:8000"
+export const BASE_PATH = "http://172.20.10.5:8000"
 export const EXPIRATION_TIME = 1200
 export const JWT_SECRET = "secret"
 
