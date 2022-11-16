@@ -3,7 +3,8 @@ import { Text, View, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-    
+import { Dropdown } from 'react-native-element-dropdown';
+
 
 import DashBoard from './DashBoard';
 import DoctorList from './DoctorList';
@@ -18,6 +19,7 @@ import UserEdit from './UserEdit';
 import UserPassword from './UserPassword';
 
 import AppointmentInfo from './AppointmentInfo';
+import MyLabAppointment from './MyLabAppointment';
 import LabAppointment from './LabAppointment';
 import NewLabAppointment from './NewLabAppointment';
 import LabAppointmentInfo from './LabAppointmentInfo';
@@ -84,9 +86,8 @@ function LabStackScreen() {
       },
       
       }}>
-      <LabStack.Screen name="LabAppointment" component={LabAppointment} options={{ title: 'Mis Laboratorios' }}/>
-      <LabStack.Screen name="NewLabAppointment" component={NewLabAppointment} options={{ title: 'Reservar Laboratorio' }}/>
-      <LabStack.Screen name="LabAppointmentInfo" component={LabAppointmentInfo} options={{ title: 'Mis Laboratorios' }}/>
+      <LabStack.Screen name="MyLabAppointment" component={MyLabAppointment} options={{ title: 'Mis Laboratorios' }}/>
+      <LabStack.Screen name="LabAppointmentInfo" component={LabAppointmentInfo} options={{ title: 'Detalles Cita' }}/>
     </LabStack.Navigator>
   )
 };

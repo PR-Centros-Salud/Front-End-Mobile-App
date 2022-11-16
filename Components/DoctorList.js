@@ -40,29 +40,31 @@ const FindScreen = ({navigation}) => {
 
             <View styles={styles.scrollVerticalContainer}>
                 {isLoading ? (<ActivityIndicator size="large" color="#E84949" />) :
-                    (<ScrollView style={styles.scrollViewVertical}>
-                    {doctors.map((doctor) => {
-                        return (
-                            <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate({name:'DoctorDetails', params: { doctor:doctor}})}>
-                            <Image
-                                source={require('../assets/Icons/docIcon.png')}
-                                resizeMode='contain'
-                                style={styles.doctorImage}
-                                tintColor='#fff'
-                            />
-                            <View style={styles.doctorTextContainer}>
-                        
-                                <Text style={styles.doctorName}>
-                                    Dr. {doctor?.first_name} {doctor?.last_name} {doctor?.second_last_name ? doctor?.second_last_name : ''}
-                                </Text>
-                                <Text style={styles.doctorInfo}>
-                                        {doctor?.contract[0]?.role} | { doctor?.institution?.name}
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                        )
-                    })}
-                </ScrollView>)}
+                    (
+                    <ScrollView style={styles.scrollViewVertical}>
+                        {doctors.map((doctor) => {
+                            return (
+                                <TouchableOpacity key={doctor.id} style={styles.doctorContainer} onPress={() => navigation.navigate({name:'DoctorDetails', params: { doctor:doctor}})}>
+                                <Image
+                                    source={require('../assets/Icons/docIcon.png')}
+                                    resizeMode='contain'
+                                    style={styles.doctorImage}
+                                    tintColor='#fff'
+                                />
+                                <View style={styles.doctorTextContainer}>
+                            
+                                    <Text style={styles.doctorName}>
+                                        Dr. {doctor?.first_name} {doctor?.last_name} {doctor?.second_last_name ? doctor?.second_last_name : ''}
+                                    </Text>
+                                    <Text style={styles.doctorInfo}>
+                                            {doctor?.contract[0]?.role} | { doctor?.institution?.name}
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                            )
+                        })}
+                    </ScrollView>
+                )}
             </View>
         </View>
     );

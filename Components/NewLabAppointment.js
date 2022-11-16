@@ -4,17 +4,61 @@ import { Dimensions } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import  SelectList  from 'react-native-dropdown-select-list';
 import { ComboBox } from 'react-native-combobox';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Dropdown } from 'react-native-element-dropdown';
+import { ActivityIndicator } from "react-native";
+import { getAvailableLabTimesApi, labAppointmentCreateApi } from './api/appointments';
 
-const FindScreen = ({navigation}) => {
+const FindScreen = ({route, navigation}) => {
+    
+    const { labs } = route.params;
+    const [loading, setLoading] = useState(false);
+    const [loadingCreate, setLoadingCreate] = useState(false);
 
-    const [selected, setSelected] = React.useState("");
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [availableTimes, setAvailableTimes] = useState(null);
+    const [laboratoryService, setLaboratoryService] = useState(0);
+    const [time, setTime] = useState(null);
+    let date = new Date();
+    date.setDate(date.getDate() + 1);
+    const [selectedDate, setSelectedDate] = useState(date);
+    const showDatePicker = () => {
+      setDatePickerVisibility(true);
+    };
+  
+    const hideDatePicker = () => {
+      setDatePickerVisibility(false);
+    };
 
-    const data = [
-        {key:'1',value:'Prueba de Orina'},
-        {key:'2',value:'Eliza COVID 19'},
-        {key:'3',value:'Prueba de Sangre'},
-        {key:'4',value:'Antígeno Nasal'},
-    ];
+    const handleConfirm = (date) => {
+        setSelectedDate(date);
+        (async () => {
+            if (date < new Date().setDate(new Date().getDate() + 1)) { 
+                Alert.alert("Please select a valid date");
+                return;
+            }
+            setAvailableTimes(null);
+            setTime(null);
+            setLoading(true);
+            const searchDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+            const labService = labs.laboratories.find(lab => lab.id == laboratoryService);
+            const availableTimes = await getAvailableLabTimesApi(labService.medical_personal_id, searchDate);
+            if (availableTimes?.data?.schedule_day_appointment) {
+                setAvailableTimes(availableTimes.data.schedule_day_appointment);
+            } else {
+                setAvailableTimes([]);
+            }
+            setLoading(false);
+            
+        })();
+        hideDatePicker();
+    };
+
+    const data = labs.laboratories.map(lab => {
+        return { label: lab.laboratory_service_name, value: lab.id }
+    })
+
+    const [isFocus, setIsFocus] = useState(false);
 
     const cancelAlert = () =>
     Alert.alert(
@@ -23,7 +67,68 @@ const FindScreen = ({navigation}) => {
       [
         {
           text: "Si",
-          onPress: () => console.log("Si Pressed"),
+        onPress: () => {
+            (async () => {
+                setLoadingCreate(true)
+                const labService = labs.laboratories.find(lab => lab.id == laboratoryService);
+                const scheduleDayAppointment = availableTimes.find(atime => atime.id == time);
+                const data = {
+                    laboratory_service_id: labService.id,
+                    schedule_day_appointment_id: scheduleDayAppointment.id,
+                    programmed_date: `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`,
+                }
+                const response = await labAppointmentCreateApi(data);
+                if (response?.data) { 
+                    if (response.data?.detail) {
+                        if (typeof response.data?.detail === 'string') { 
+                            Alert.alert(
+                                "Error",
+                                response.data.detail,
+                                [
+                                    {
+                                        text: "Ok",
+                                        onPress: () => {
+                                            setLoadingCreate(false);
+                                        }
+                                    }
+                                ]
+                            )
+                        } else {
+                            Alert.alert(
+                                "Error",
+                                "Error en el servidor, intente mas tarde",
+                                [
+                                    {
+                                        text: "Ok",
+                                        onPress: () => {
+                                            setLoadingCreate(false);
+                                        }
+                                    }
+                                ]
+                            )
+                        }
+                        
+                    } else {
+                        Alert.alert(
+                            "Exito",
+                            "Se ha creado la cita correctamente",
+                            [
+                                {
+                                    text: "Ok",
+                                    onPress: () => {
+                                        setLoadingCreate(false);
+                                        navigation.navigate('DashBoard');
+                                        
+                                    }
+                                }
+                            ]
+                        )
+                    }
+                }
+
+                setLoadingCreate(false);
+              })()
+          },
           style: "cancel"
         },
         { text: "No", onPress: () => console.log("No Pressed") }
@@ -32,125 +137,159 @@ const FindScreen = ({navigation}) => {
 
     const [selectedCat, setSelectedCat] = useState();
 
-   
-  
+    const [selected, setSelected] = React.useState("");
+
+    const handleDropdownChange = (item) => { 
+        setLaboratoryService(item.value);
+        setIsFocus(false)
+    }
+
     return(
         
         <View style={styles.mainContainer}>
             
-            <ScrollView style={styles.scrollViewContainer}>
-                <View style={styles.subTextContainer}>
-                    <Text style={styles.subText}>
-                        13 Diciembre 2022
-                    </Text>
-                </View>
-
-                <View style={styles.containerButtons}>
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.plainText}>Mañana</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.button2}>
-                        <Text style={styles.plainText}>Tarde</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.scheduleOptionsContainer}>
-
-                    <View style={styles.scheduleButtonContainer}>
-                        <TouchableOpacity style={styles.hourButton2}>
-                            <Text style={styles.hourText}>
-                                08:00AM
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.scheduleButtonContainer}>
-                        <TouchableOpacity style={styles.hourButton2}>
-                            <Text style={styles.hourText}>
-                                09:00AM
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.scheduleButtonContainer}>
-                     <TouchableOpacity style={styles.hourButton2}>
-                            <Text style={styles.hourText}>
-                                10:30AM
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.scheduleButtonContainer}>
-                        <TouchableOpacity style={styles.hourButton2}>
-                            <Text style={styles.hourText}>
-                                11:00AM
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                <View style={styles.subTitleContainer}>
-                    <Text style={styles.subTitleText}>
-                        Fecha
-                    </Text>
-                </View>
-
-                <View style={styles.calendarContainer}>
-                    <Calendar/>
-                </View>
-
-                <View style={styles.comboBoxContainer}>
-                <SelectList setSelected={setSelected} data={data}/>
-                </View>
-
-                <View style={styles.subTitleContainer}>
-                    <Text style={styles.subTitleText}>
-                        Detalles
-                    </Text>
-                </View>
-
-                <View style={styles.mainDetailsContainer}>
-                    <View style={styles.detailsContainer}>
+            {labs  && !loadingCreate ? (
+                <>
+                    <ScrollView style={styles.scrollViewContainer}>
+                        <View style={styles.comboBoxContainer}>
+                            
+                            <Dropdown
+                                style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+                                placeholderStyle={{color: '#fff'}}
+                                placeholder="Tipo de prueba"
+                                selectedTextStyle={styles.selectedTextStyle}
+                                inputSearchStyle={styles.inputSearchStyle}
+                                iconStyle={styles.iconStyle}
+                                data={data}
+                                activeColor={'#E84949'}
+                                backgroundColor={'transparent'}
+                                itemTextStyle={{ color: 'white' }}
+                                maxHeight={300}
+                                value={laboratoryService}
+                                labelField="label"
+                                valueField="value"
+                                itemContainerStyle = {{backgroundColor: '#262C33'}}
+                                onChange={handleDropdownChange}
+                                onFocus={() => setIsFocus(true)}
+                                onBlur={() => setIsFocus(false)}
+                            />
+                        </View>
                         
+                        {laboratoryService != 0 && (
+                            <>
+                                <View style={styles.subTitleContainer}>
+                                <Text style={styles.subTitleText}>
+                                    Fecha
+                                </Text>
+                            </View>
 
-                        <View style={styles.appointmentDetails}>
-                        <Text style={styles.appStatusText}>
-                            En Proceso de Aprobación
-                        </Text>
+                            <TouchableOpacity style={styles.buttonDate} onPress={showDatePicker}>
+                                <Text style={styles.buttonDateText}>
+                                    Seleccione una fecha.
+                                </Text>
+                            </TouchableOpacity>
+                            <DateTimePickerModal
+                                isVisible={isDatePickerVisible}
+                                mode="date"
+                                isDarkModeEnabled={true}
+                                onCancel={hideDatePicker}
+                                onConfirm={handleConfirm}
+                                style={{
+                                height: 300,
+                                }}
 
-                        <Text style={styles.simpleTextDetails}>
-                            Prueba de Sangre
-                        </Text>
+                                display="inline"
+                            />
+                                <View style={styles.subTextContainer}>
+                                    <Text style={styles.subText}>
+                                    {`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`}
+                                    </Text>
+                                </View>
+                            </>
+                        )}
 
-                        <Text style={styles.simpleTextDetails}>
-                            Fecha: 13 de Diciembre
-                        </Text>
+                        <View style={styles.scheduleOptionsContainer}>
+                            <ScrollView horizontal="true">
+                            <View>
+                            {availableTimes != null ? (
+                                <>
+                                {availableTimes.length > 0 ? (
+                                        <View style={styles.scheduleButtonContainer}>
+                                            {availableTimes.map(atime => {
+                                                return (
+                                                    <TouchableOpacity style={atime.id == time ? styles.hourButton : styles.hourButton2} onPress={() => setTime(atime.id)}>
+                                                        <Text style={styles.hourText}>
+                                                            {atime.start_time.substring(0,5)}
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                )
+                                            })}
+                                        </View>
+                                    ): (
+                                    <Text style = {styles.plainText} >
+                                        No hay horarios disponibles para esta fecha.
+                                    </Text>
+                                )}
+                                </>
+                            ) : laboratoryService != 0 && loading && (<ActivityIndicator size="large" color="#E84949" />)}
+                            </View></ScrollView>
+                        </View>
+                        {time != null && (
+                            <>
+                            <View style={styles.subTitleContainer}>
+                                <Text style={styles.subTitleText}>
+                                    Detalles
+                                </Text>
+                            </View>
+                            <View style={styles.mainDetailsContainer}>
+                                <View style={styles.detailsContainer}>
+                                    <View style={styles.appointmentDetails}>
+                                    <Text style={styles.appStatusText}>
+                                        En Proceso de Aprobación
+                                    </Text>
 
-                        <Text style={styles.simpleTextDetails}>
-                            Hora: 11:00 AM
-                        </Text>
+                                    <Text style={styles.simpleTextDetails}>
+                                        {labs.laboratories.find(lab => lab.id == laboratoryService).laboratory_service_name}
+                                    </Text>
 
-                        <Text style={styles.simpleTextDetails}>
-                            Hospital del Norte
-                        </Text>
+                                    <Text style={styles.simpleTextDetails}>
+                                        Fecha: {`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`}
+                                    </Text>
 
-                        <Text style={styles.simpleTextDetails}>
-                            Por favor llegar 10 minutos{"\n"}antes!
-                        </Text>
-                    </View>
-                    </View>
-                </View>
+                                    <Text style={styles.simpleTextDetails}>
+                                        Hora: {availableTimes.find(atime => atime.id == time).start_time.substring(0,5)}-{availableTimes.find(atime => atime.id == time).end_time.substring(0,5)}
+                                    </Text>
 
-                <View style={styles.confirmationButtonContainer}>
-                    <TouchableOpacity style={styles.buttonNewLab} onPress={cancelAlert}>
-                        <Text style={styles.plainText}>
-                            Confirmar
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                                    <Text style={styles.simpleTextDetails}>
+                                        Institucion: {labs.name}
+                                    </Text>
+                                    <Text style={styles.simpleTextDetails}>
+                                        Direccion: {labs.address}
+                                    </Text>
 
-            </ScrollView>  
+                                    <Text style={styles.simpleTextDetails}>
+                                        Por favor llegar 10 minutos{"\n"}antes!
+                                    </Text>
+                                    </View>
+                                </View>
+                            </View>
+
+                            <View style={styles.confirmationButtonContainer}>
+                                <TouchableOpacity style={styles.buttonNewLab} onPress={cancelAlert}>
+                                    <Text style={styles.plainText}>
+                                        Confirmar
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            </>
+                        )}
+                        </ScrollView>
+                </>
+                ): (
+                <ActivityIndicator size="large" color="#E84949" />
+            )}
+
+              
         </View>
     );
 }
@@ -198,6 +337,27 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         width:'100%',
         backgroundColor:'transparent'
+    },
+
+    buttonDate:{
+        width:'100%',
+        backgroundColor:"#E84949",
+        borderRadius:10,
+        height:45,
+        justifyContent:"center",
+        marginTop:20,
+        marginBottom:10,
+        alignItems:"center",
+        justifyContent:"center",
+        alignSelf:'center'
+    },
+    buttonDateText:{
+        color:'#fff',
+        fontSize:18,
+        fontWeight:'bold',
+        alignItems:"center",
+        justifyContent:"center",
+        alignSelf:'center'
     },
     
     containerButtons:{
@@ -260,16 +420,30 @@ const styles = StyleSheet.create({
         flexDirection:'row'
     },
     scheduleButtonContainer:{
-        width:'25%',
+        width:'auto',
         padding:5,
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
+        flexDirection:'row'
+    },
+    hourButton:{
+        padding:10,
+        backgroundColor:"#E84949",
+        borderRadius:10,
+        borderWidth:1,        
+        borderColor:'#E84949',
+        height:35,
+        marginRight:7,
+        alignItems:'center',
+        justifyContent:'center'
     },
     hourButton2:{
+        padding:10,
         backgroundColor:"transparent",
         borderRadius:10,
         borderWidth:1,        
         borderColor:'#FFF',
         height:35,
+        marginRight:7,
         alignItems:'center',
         justifyContent:'center'
     },
@@ -292,13 +466,18 @@ const styles = StyleSheet.create({
         padding:5,
         marginBottom:10
     },
-    comboBoxContainer:{
-        width:'100%',
-        height:'auto',
-        borderRadius:10,
-        marginBottom:5,
-        backgroundColor:'white'
-    },
+    
+    dropdown: {
+        height: 50,
+        width: '100%',
+        borderRadius: 8,
+        paddingHorizontal: 8,
+        justifyContent:"center",
+        alignSelf:'center',
+        marginBottom: 12,
+        backgroundColor:'#262C33',
+        color:"white",
+      },
     mainDetailsContainer:{
         width:'100%',
         padding:5,
@@ -348,6 +527,7 @@ const styles = StyleSheet.create({
     simpleTextDetails:{
         color:'white'
     },
+     
     confirmationButtonContainer:{
         width:'100%',
         height:'auto',

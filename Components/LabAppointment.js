@@ -1,8 +1,26 @@
 import React, {useState, useEffect} from "react";
 import { View, Text, Image, TouchableOpacity, Alert, TextInput, StyleSheet, ScrollView} from "react-native";
-
-
+import { ActivityIndicator } from "react-native";
+import { getInstitutionByProvinceApi, getInstitituionLaboratoriesApi } from "./api/institution";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const FindScreen = ({navigation}) => {
+
+    const [isLoading, setLoading] = useState(true);
+    const [laboratory, setLabs] = useState([]);
+    const [search, setSearch] = useState('');
+
+    useEffect(() => { 
+        (async () => {
+            setLoading(true);
+            const response = await getInstitutionByProvinceApi();
+            if (response?.data) {
+                setLabs(response.data);
+            } else {
+                alert("Error al cargar los datos");
+            }
+            setLoading(false);
+        })()
+    }, []);
 
 
     return(
@@ -21,97 +39,36 @@ const FindScreen = ({navigation}) => {
             </View>
 
             <View styles={styles.scrollVerticalContainer}>
-                <ScrollView style={styles.scrollViewVertical}>
-                    
-                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('NewLabAppointment')}>
-                        <Image
-                            source={require('../assets/Icons/laboratoryDefault.png')}
-                            resizeMode='contain'
-                            style={styles.labImage}
-                        />
-                        <View style={styles.labTextContainer}>
-                            
-                            <Text style={styles.labName}>
-                                Laboratorio
-                            </Text>
-                            <Text style={styles.labInfo}>
-                                Dirección: 
-                            </Text>
-                            <Text style={styles.labInfo}>
-                                DireccionPrueba
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('NewLabAppointment')}>
-                        <Image
-                            source={require('../assets/Icons/laboratoryDefault.png')}
-                            resizeMode='contain'
-                            style={styles.labImage}
-                        />
-                        <View style={styles.labTextContainer}>
-                            
-                            <Text style={styles.labName}>
-                                Laboratorio
-                            </Text>
-                            <Text style={styles.labInfo}>
-                                Dirección: 
-                            </Text>
-                            <Text style={styles.labInfo}>
-                                DireccionPrueba
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('NewLabAppointment')}>
-                        <Image
-                            source={require('../assets/Icons/laboratoryDefault.png')}
-                            resizeMode='contain'
-                            style={styles.labImage}
-                        />
-                        <View style={styles.labTextContainer}>
-                            
-                            <Text style={styles.labName}>
-                                Laboratorio
-                            </Text>
-                            <Text style={styles.labInfo}>
-                                Dirección: 
-                            </Text>
-                            <Text style={styles.labInfo}>
-                                DireccionPrueba
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate('NewLabAppointment')}>
-                        <Image
-                            source={require('../assets/Icons/laboratoryDefault.png')}
-                            resizeMode='contain'
-                            style={styles.labImage}
-                        />
-                        <View style={styles.labTextContainer}>
-                            
-                            <Text style={styles.labName}>
-                                Laboratorio
-                            </Text>
-                            <Text style={styles.labInfo}>
-                                Dirección: 
-                            </Text>
-                            <Text style={styles.labInfo}>
-                                DireccionPrueba
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    
-
-                    
-
-                   
-
-
-
-                </ScrollView>
+                {isLoading ? (<ActivityIndicator size="large" color="#E84949" />) :
+                    (
+                    <ScrollView style={styles.scrollViewVertical}>
+                        {laboratory.map((labs) => {
+                            return (
+                                <TouchableOpacity style={styles.doctorContainer} onPress={() => navigation.navigate({ name: 'NewLabAppointment', params: {labs:labs} })}>
+                                    <Image
+                                        source={require('../assets/Icons/laboratoryDefault.png')}
+                                        resizeMode='contain'
+                                        style={styles.doctorImage}
+                                        tintColor='#fff'
+                                    />
+                                    <View style={styles.doctorTextContainer}>
+                        
+                                        <Text style={styles.doctorName}>
+                                            {labs?.name}
+                                        </Text>
+                                        <Text style={styles.doctorInfo}>
+                                            {labs?.address}
+                                        </Text>
+                                        <Text style={styles.doctorInfo}>
+                                            {labs?.phone}
+                                        </Text>
+                                
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        })}
+                    </ScrollView>
+                )}
             </View>
         </View>
     );
@@ -138,23 +95,6 @@ const styles = StyleSheet.create({
         color:'#FFF',
         fontWeight:'500',
         fontSize: 27,
-    },
-
-    labName:{
-        color:'white',
-        fontWeight:'700'
-    },
-    labInfo:{
-        marginTop:5,
-        color:'white',
-        fontWeight:'300'
-    },
-    labImage:{
-        borderRadius:10,
-        width: 60,
-        height: 60,
-        marginRight:10,
-        tintColor:'white'
     },
     
     searchBarContainer:{

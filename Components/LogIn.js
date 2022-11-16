@@ -9,8 +9,6 @@ import {loginApi} from './api/user_api';
 
 import jwtDecode from "jwt-decode";
 
-
-
 export default function LogIn(){
   const navigation = useNavigation();
   
@@ -27,7 +25,6 @@ export default function LogIn(){
       password: password,
       
     }).then(result =>{
-      console.log('ola')
     if(result != null){
       if(result.status == 200) {
       //en principio deberia funcionar con esto

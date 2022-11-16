@@ -6,11 +6,10 @@ import { ActivityIndicator } from "react-native";
 
 const FindScreen = ({ route, navigation }) => {
     const { doctor } = route.params;
-    const [isLoading, setLoading] = useState(false);
 
     return(
         <View style={styles.mainContainer}>
-            {doctor && !isLoading ? (
+            {doctor ? (
                 <>
                     <View style={styles.detailsContainer}>
                     <Image 
@@ -34,7 +33,7 @@ const FindScreen = ({ route, navigation }) => {
 
                         <View style={styles.optionsContainer}>
                             
-                            <TouchableOpacity style={styles.options} onPress={() => navigation.navigate('DoctorAppointment')}>
+                                <TouchableOpacity style={styles.options} onPress={() => navigation.navigate({ name: 'DoctorAppointment', params: {doctor:doctor} })}>
                                 <Image
                                     source={require('../assets/Icons/calendarIcon.png')}
                                 resizeMode='contain'

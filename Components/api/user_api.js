@@ -54,8 +54,34 @@ export const authFetch = async (url, params) => {
             const response = await axios(url, paramsTemp)
             return response
         } catch (e) {
-            console.log(e)
-            return e
+            console.log(e.response, 'error')
+            return e.response
         }
     }
+}
+
+export const changePasswordApi = async (old_password, new_password) => {
+    try {
+        const url = `${BASE_PATH}/person/update-password`
+        const formData = new FormData()
+        formData.append("old_password", old_password.trim())
+        formData.append("new_password", new_password.trim())
+        
+        const params = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: {
+                old_password,
+                new_password,
+            }
+        }
+        const result = await authFetch(url, params)
+        return result ? result : null
+    } catch (e) {
+        console.log(e)
+        return null
+    }
+
 }

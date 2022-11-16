@@ -1,72 +1,111 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, TextInput, Button, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { changePasswordApi } from './api/user_api';
+import { useFormik } from 'formik';
+import { ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { DevSettings } from 'react-native';
 
 const FindScreen = ({navigation}) => {
+    const [isLoading, setIsLoading] = useState(false)
+    const formik = useFormik({
+        initialValues: {
+            oldPassword: '',
+            newPassword: '',
+            confirmPassword: ''
+        },
+        onSubmit: async (values) => { 
+            setIsLoading(true)
+            if (values.newPassword != values.confirmPassword) {
+                alert("Passwords don't match")
+                setIsLoading(false)
+                return;
+            } else if (values.newPassword.length > 3) {
+                const response = await changePasswordApi(values.oldPassword, values.newPassword)
+                if (response.status == 200) {
+                    setIsLoading(false)
+                    alert('Password changed successfully')
+                    await AsyncStorage.removeItem('AccessToken');
+                    DevSettings.reload();
+                } else {
+                    setIsLoading(false)
+                    alert('Password change failed')
+                }
+            } else {
+                setIsLoading(false)
+                alert('Password must be at least 4 characters')
+            }
+        }
+    })
 
     return(
         <View style={styles.container}>
-            
-            <View style={styles.profileContainer}>
-                <Image
-                    source={require('../assets/userPictures/lady.png')}
-                    resizeMode='contain'
-                    style={{
-                        borderRadius:20,
-                        width: 110,
-                        height: 110,
-                        marginRight:10
-                    }}
-                  />
-                <View style={styles.userTextCont}>
-                    <Text style={styles.userName}>
-                        María Jimenez
-                    </Text>
-                    <Text style={styles.userInfo}>
-                        mariajim@gmail.com
-                    </Text>
-                    <Text style={styles.userInfo}>
-                        Estudiante
-                    </Text>
-                    <Text style={styles.userInfo}>
-                        78743012
-                    </Text>
-                    <Text style={styles.userInfo}>
-                        1345810
-                    </Text>
+            {isLoading ? <ActivityIndicator size="large" color="#E84949" /> : (
+                <>
+                <View style={styles.profileContainer}>
+                    <Image
+                        source={require('../assets/userPictures/lady.png')}
+                        resizeMode='contain'
+                        style={{
+                            borderRadius:20,
+                            width: 110,
+                            height: 110,
+                            marginRight:10
+                        }}
+                    />
+                    <View style={styles.userTextCont}>
+                        <Text style={styles.userName}>
+                            María Jimenez
+                        </Text>
+                        <Text style={styles.userInfo}>
+                            mariajim@gmail.com
+                        </Text>
+                        <Text style={styles.userInfo}>
+                            Estudiante
+                        </Text>
+                        <Text style={styles.userInfo}>
+                            78743012
+                        </Text>
+                        <Text style={styles.userInfo}>
+                            1345810
+                        </Text>
+                    </View>
                 </View>
-            </View>
-            
-            <ScrollView style={styles.scrollV}>
+                <ScrollView style={styles.scrollV}>
                 <View style={styles.separator}/>
-
-             
                 <TextInput  
-            style={styles.inputText}
-            placeholder="Antigua contraseña" 
-            placeholderTextColor="#fff"
-            onChangeText={text => this.setState({email:text})}/>
+                    style={styles.inputText}
+                    placeholder="Antigua contraseña" 
+                    placeholderTextColor="#fff"
+                    value={formik.values.oldPassword}
+                    onChangeText={formik.handleChange('oldPassword')}/>
 
-            <TextInput  
-            style={styles.inputText}
-            placeholder="Nueva Contraseña" 
-            placeholderTextColor="#fff"
-            onChangeText={text => this.setState({email:text})}/>
+                    <TextInput  
+                    style={styles.inputText}
+                    placeholder="Nueva Contraseña"
+                    values={formik.values.newPassword}
+                    placeholderTextColor="#fff"
+                    onChangeText={ formik.handleChange('newPassword')} />
 
-            <TextInput  
-            style={styles.inputText}
-            placeholder="Confirmar Contraseña" 
-            placeholderTextColor="#fff"
-            onChangeText={text => this.setState({email:text})}/>
+                    <TextInput  
+                    style={styles.inputText}
+                    placeholder="Confirmar Contraseña"
+                    value={formik.values.confirmPassword}        
+                    placeholderTextColor="#fff"
+                    onChangeText={formik.handleChange('confirmPassword')}/>
 
-
-                
-                
-
-            </ScrollView>
+                    <TouchableOpacity style={styles.loginBtn} onPress={formik.handleSubmit}>
+                        <Text style={styles.loginText}>Confirmar</Text>
+                    </TouchableOpacity>
+                </ScrollView>
+                </>
+            )}
+            
+            
+            
 
         </View>
         
@@ -104,6 +143,27 @@ const styles = StyleSheet.create({
         color:'#fff'
     },
     
+  loginBtn:{
+    width:300,
+    backgroundColor:"#E84949",
+    borderRadius:10,
+    height:60,
+    justifyContent:"center",
+    marginTop:20,
+    marginBottom:10,
+    alignItems:"center",
+    justifyContent:"center",
+    alignSelf:'center'
+  },
+
+  loginText:{
+    color:'#fff',
+    fontSize:18,
+    fontWeight:'bold',
+    alignItems:"center",
+    justifyContent:"center",
+    alignSelf:'center'
+  },
     subText:{
         width:'100%',
         color:'#FFF',

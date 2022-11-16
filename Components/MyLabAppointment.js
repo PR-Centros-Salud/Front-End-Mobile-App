@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { getPastMedAppointmentsApi, getFutureMedAppointmentsApi } from './api/appointments';
+import { getPastLabAppointmentsApi, getFutureLabAppointmentsApi } from './api/appointments';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from "jwt-decode";
 import { ActivityIndicator } from "react-native";
-import { useLocation } from 'react-router-dom';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
-const FindScreen = ({ route, navigation }) => {
+const FindScreen = ({route,navigation}) => {
+
     const [loading, setLoading] = useState(false);
     const [pastAppointments, setPastAppointments] = useState(null);
     const [upcomingAppointments, setUpcomingAppointments] = useState(null);
+
     const [tab, setTab] = useState(1);
 
     useFocusEffect(
@@ -19,19 +20,21 @@ const FindScreen = ({ route, navigation }) => {
                 setLoading(true);
                 const id = jwtDecode(await AsyncStorage.getItem('AccessToken'))?.id;
                 console.log(id)
-                const past = await getPastMedAppointmentsApi(id);
+                const past = await getPastLabAppointmentsApi(id);
                 if (past?.data){
                     setPastAppointments(past.data);
                     console.log(past.data);
                 }
-                const future = await getFutureMedAppointmentsApi(id);
+                const future = await getFutureLabAppointmentsApi(id);
                 if (future?.data) {
                     setUpcomingAppointments(future.data);
                     console.log(future.data);
                 }
                 setLoading(false);
             })()
-        }, []));
+        }, [])
+    );
+
 
     return(
         <View style={styles.container}>
@@ -51,7 +54,7 @@ const FindScreen = ({ route, navigation }) => {
                 {loading ? <ActivityIndicator size="large" color="#E84949" /> : null}
                 {!loading && tab == 1 && upcomingAppointments?.length > 0 ? upcomingAppointments.map((appointment, index) => {
                     return (
-                        <TouchableOpacity style={styles.appointmentContainer} onPress={() => navigation.navigate({ name: 'AppointmentInfo', params: {appointment:appointment} })}>
+                        <TouchableOpacity style={styles.appointmentContainer} onPress={() => navigation.navigate({ name: 'LabAppointmentInfo', params: {appointment:appointment} })}>
                             <Image
                                 source={require('../assets/userPictures/lady.png')}
                                 resizeMode='contain'
@@ -68,7 +71,7 @@ const FindScreen = ({ route, navigation }) => {
                                     {appointment.status == 1 ? "Pendiente" : appointment.status == 2 ? "Confirmada" : appointment.status == 3 ? "Cancelada": "Finalizada"}
                                 </Text>
                                 <Text style={styles.plainText}>
-                                    {appointment?.medical_personal?.name} {appointment?.medical_personal?.last_name} {appointment?.medical_personal?.second_last_name ? appointment?.medical_personal?.second_last_name : null}
+                                    {appointment?.medical_personal?.first_name} {appointment?.medical_personal?.last_name} {appointment?.medical_personal?.second_last_name ? appointment?.medical_personal?.second_last_name : null}
                                 </Text>
                                 <Text style={styles.appDocInfo}>
                                     {appointment?.medical_personal?.contract[0].role}

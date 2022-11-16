@@ -1,127 +1,259 @@
-import React from 'react';
-import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { Dimensions } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { getAvailableMedTimesApi } from './api/appointments';
+import { ActivityIndicator } from "react-native";
+import { medAppointmentCreateApi } from './api/appointments';
 
-const FindScreen = ({navigation}) => {
+const FindScreen = ({route, navigation}) => {
+    const { doctor } = route.params;
+    let date = new Date();
+    date.setDate(date.getDate() + 1);
+    const [availableTimes, setAvailableTimes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [loadingCreate, setLoadingCreate] = useState(false);
+
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(date);
+    const [time, setTime] = useState(null);
+
+    const showDatePicker = () => {
+      setDatePickerVisibility(true);
+    };
+  
+    const hideDatePicker = () => {
+      setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date) => {
+        setSelectedDate(date);
+        (async () => {
+            if (date < new Date().setDate(new Date().getDate() + 1)) { 
+                Alert.alert("Please select a valid date");
+                return;
+            }
+            setAvailableTimes(null);
+            setTime(null);
+            setLoading(true);
+
+            const searchDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+   
+            const availableTimes = await getAvailableMedTimesApi(doctor.id, searchDate);
+            console.log(availableTimes)
+            if (availableTimes?.data?.schedule_day_appointment) {
+                setAvailableTimes(availableTimes.data.schedule_day_appointment);
+            } else {
+                setAvailableTimes([]);
+            }
+            setLoading(false);
+
+        })()
+        hideDatePicker();
+    };  
+
+    useEffect(() => {
+        (async () => {
+            setLoading(true);
+            const searchDate = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+            const availableTimes = await getAvailableMedTimesApi(doctor.id, searchDate);
+            if (availableTimes?.data?.schedule_day_appointment) {
+                setAvailableTimes(availableTimes.data.schedule_day_appointment);
+            } else {
+                setAvailableTimes([]);
+            }
+            setLoading(false);
+        })()
+    }, [])
+
+    const createNew = () => {
+        Alert.alert(
+            "Confirmar cita",
+            `¿Estás seguro de que quieres confirmar la cita?`,
+            [
+                {
+                    text: "Si",
+                    onPress: () => { 
+                        (async () => {
+                            setLoadingCreate(true);
+                            const scheduleDayAppointment = availableTimes.find((item) => item.id === time);
+                            const data = {
+                                medical_personal_id: doctor.id,
+                                schedule_day_appointment_id: scheduleDayAppointment.id,
+                                programmed_date: `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`,
+                                institution_id: doctor.institution.id
+                            }
+                            const response = await medAppointmentCreateApi(data);
+                            if (response?.data) {
+                                if (response.data?.detail) { 
+                                    if (typeof response.data?.detail === 'string') { 
+                                        Alert.alert(
+                                            "Error",
+                                            response.data.detail,
+                                            [
+                                                {
+                                                    text: "Ok",
+                                                    onPress: () => {
+                                                        setLoadingCreate(false);
+                                                    }
+                                                }
+                                            ]
+                                        )
+                                    } else {
+                                        Alert.alert(
+                                            "Error",
+                                            "Error en el servidor, intente mas tarde",
+                                            [
+                                                {
+                                                    text: "Ok",
+                                                    onPress: () => {
+                                                        setLoadingCreate(false);
+                                                    }
+                                                }
+                                            ]
+                                        )
+                                    }
+                                } else {
+                                    Alert.alert(
+                                        "Exito",
+                                        "Se ha creado la cita correctamente",
+                                        [
+                                            {
+                                                text: "Ok",
+                                                onPress: () => {
+                                                    setLoadingCreate(false);
+                                                    navigation.navigate('DashBoard');
+                                                    
+                                                }
+                                            }
+                                        ]
+                                    )
+                                }
+                            }
+                        })()
+                    },
+                    style: "cancel"
+                },
+                { text: "No", onPress: () => console.log("No Pressed") }
+            ]
+        )
+    }
+
+    const [isFocus, setIsFocus] = useState(false);
+
     return(
         
         <View style={styles.mainContainer}>
-            
-            <ScrollView style={styles.scrollViewContainer}>
-                <View style={styles.subTextContainer}>
-                    <Text style={styles.subText}>
-                        13 Diciembre 2022
-                    </Text>
-                </View>
-
-                <View style={styles.optionContainer}>
-                    <View style={styles.button1Container}>
-                        <TouchableOpacity style={styles.button1}>
-                            <Text style={styles.buttonText}>
-                                Mañana
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.button2Container}>
-                        <TouchableOpacity style={styles.button2}>
-                            <Text style={styles.buttonText}>
-                                Tarde
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                <View style={styles.scheduleOptionsContainer}>
-
-                    <View style={styles.scheduleButtonContainer}>
-                        <TouchableOpacity style={styles.hourButton2}>
-                            <Text style={styles.hourText}>
-                                08:00AM
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.scheduleButtonContainer}>
-                        <TouchableOpacity style={styles.hourButton2}>
-                            <Text style={styles.hourText}>
-                                09:00AM
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.scheduleButtonContainer}>
-                     <TouchableOpacity style={styles.hourButton2}>
-                            <Text style={styles.hourText}>
-                                10:30AM
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.scheduleButtonContainer}>
-                        <TouchableOpacity style={styles.hourButton2}>
-                            <Text style={styles.hourText}>
-                                11:00AM
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                <View style={styles.subTitleContainer}>
-                    <Text style={styles.subTitleText}>
-                        Fecha
-                    </Text>
-                </View>
-
-                <View style={styles.calendarContainer}>
-                    <Calendar/>
-                </View>
-
-                <View style={styles.subTitleContainer}>
-                    <Text style={styles.subTitleText}>
-                        Detalles de la cita
-                    </Text>
-                </View>
-
-                <View style={styles.mainDetailsContainer}>
-                    <View style={styles.detailsContainer}>
-                        <View style={styles.doctorImageContainer}>
-                            <Image
-                                source={require('../assets/userPictures/lady.png')}
-                                resizeMode='contain'
-                                style={styles.doctorImage}
+            {doctor && !loadingCreate ? (
+                <ScrollView style={styles.scrollViewContainer}>
+                    {!loading && (
+                        <>
+                            <View style={styles.subTextContainer}>
+                                <Text style={styles.subText}>
+                                    Fecha
+                                </Text>
+                            </View>
+                            <TouchableOpacity style={styles.buttonDate} onPress={showDatePicker}>
+                                <Text style={styles.buttonDateText}>
+                                    Seleccione una fecha.
+                                </Text>
+                            </TouchableOpacity>
+                            <DateTimePickerModal
+                                isVisible={isDatePickerVisible}
+                                mode="date"
+                                isDarkModeEnabled={true}
+                                onCancel={hideDatePicker}
+                                onConfirm={handleConfirm}
+                                style={{
+                                height: 300,
+                                }}
+                                display="inline"
                             />
-                            <Text style={styles.doctorText}>
-                                Dr. Abdel Garcia
+                        </>
+                    )}
+                    
+                    
+                    <View style={styles.subTextContainer}>
+                        <Text style={styles.subText}>
+                        {`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`}
+                        </Text>
+                    </View>
+                    <View style={styles.scheduleOptionsContainer}>
+                        <ScrollView horizontal="true">
+                            <View>
+                            {availableTimes != null && !loading ? (
+                                <>
+                                {availableTimes.length > 0 ? (
+                                        <View style={styles.scheduleButtonContainer}>
+                                            {availableTimes.map(time => {
+                                                return (
+                                                    <TouchableOpacity style={styles.hourButton2} onPress={() => setTime(time.id)}>
+                                                        <Text style={styles.hourText}>
+                                                            {time.start_time.substring(0,5)}
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                )
+                                            })}
+                                        </View>
+                                    ): (
+                                    <Text style = {styles.plainText} >
+                                        No hay horarios disponibles para esta fecha.
+                                    </Text>
+                                )}
+                                </>
+                            ) : loading && (<ActivityIndicator size="large" color="#E84949" />)}
+                            </View></ScrollView>
+                    </View>
+                    {time != null && (
+                        <>
+                        <View style={styles.subTitleContainer}>
+                            <Text style={styles.subTitleText}>
+                                Detalles
                             </Text>
                         </View>
+                        <View style={styles.mainDetailsContainer}>
+                            <View style={styles.detailsContainer}>
+                                <View style={styles.appointmentDetails}>
+                                <Text style={styles.appStatusText}>
+                                    En Proceso de Aprobación
+                                </Text>
 
-                        <View style={styles.appointmentDetails}>
-                        <Text style={styles.appStatusText}>
-                            En Proceso de Aprobación
-                        </Text>
+                                <Text style={styles.simpleTextDetails}>
+                                    Fecha: {`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`}
+                                </Text>
 
-                        <Text style={styles.simpleTextDetails}>
-                            Fecha: 13 de Diciembre
-                        </Text>
+                                <Text style={styles.simpleTextDetails}>
+                                    Hora: {availableTimes.find(atime => atime.id == time).start_time.substring(0,5)}-{availableTimes.find(atime => atime.id == time).end_time.substring(0,5)}
+                                </Text>
 
-                        <Text style={styles.simpleTextDetails}>
-                            Hora: 11:00 AM
-                        </Text>
+                                <Text style={styles.simpleTextDetails}>
+                                    Institucion: {doctor?.institution.name}
+                                </Text>
+                                <Text style={styles.simpleTextDetails}>
+                                    Direccion: {doctor?.institution.address}
+                                </Text>
 
-                        <Text style={styles.simpleTextDetails}>
-                            Hospital del Norte
-                        </Text>
+                                <Text style={styles.simpleTextDetails}>
+                                    Por favor llegar 10 minutos{"\n"}antes!
+                                </Text>
+                                </View>
+                            </View>
+                        </View>
 
-                        <Text style={styles.simpleTextDetails}>
-                            Por favor llegar 10 minutos{"\n"}antes!
-                        </Text>
-                    </View>
-                    </View>
-                </View>
-
-            </ScrollView>  
+                        <View style={styles.confirmationButtonContainer}>
+                            <TouchableOpacity style={styles.buttonNewLab} onPress={createNew}>
+                                <Text style={styles.plainText}>
+                                    Confirmar
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        </>
+                    )}
+                </ScrollView>
+            ): (
+                <ActivityIndicator size="large" color="#E84949" />
+            )}
         </View>
     );
 }
@@ -170,6 +302,26 @@ const styles = StyleSheet.create({
         width:'100%',
         backgroundColor:'transparent'
     },
+    buttonDate:{
+        width:'100%',
+        backgroundColor:"#E84949",
+        borderRadius:10,
+        height:50,
+        justifyContent:"center",
+        marginTop:20,
+        marginBottom:10,
+        alignItems:"center",
+        justifyContent:"center",
+        alignSelf:'center'
+    },
+    buttonDateText:{
+        color:'#fff',
+        fontSize:18,
+        fontWeight:'bold',
+        alignItems:"center",
+        justifyContent:"center",
+        alignSelf:'center'
+    },
     button1Container:{
         width:'50%',
         padding:7,
@@ -199,8 +351,7 @@ const styles = StyleSheet.create({
     buttonText:{
         color:'white',
         fontSize:20
-    },
-    scheduleOptionsContainer:{
+    },scheduleOptionsContainer:{
         width:'100%',
         backgroundColor:'transparent',
         padding:0,
@@ -208,16 +359,30 @@ const styles = StyleSheet.create({
         flexDirection:'row'
     },
     scheduleButtonContainer:{
-        width:'25%',
+        width:'auto',
         padding:5,
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
+        flexDirection:'row'
+    },
+    hourButton:{
+        padding:10,
+        backgroundColor:"#E84949",
+        borderRadius:10,
+        borderWidth:1,        
+        borderColor:'#E84949',
+        height:35,
+        marginRight:7,
+        alignItems:'center',
+        justifyContent:'center'
     },
     hourButton2:{
+        padding:10,
         backgroundColor:"transparent",
         borderRadius:10,
         borderWidth:1,        
         borderColor:'#FFF',
         height:35,
+        marginRight:7,
         alignItems:'center',
         justifyContent:'center'
     },
@@ -288,5 +453,21 @@ const styles = StyleSheet.create({
     },
     simpleTextDetails:{
         color:'white'
+    },
+    confirmationButtonContainer:{
+        width:'100%',
+        height:'auto',
+        padding:5,
+        backgroundColor:'transparent',
+        marginBottom:60
+    },
+    buttonNewLab:{
+        width:'100%',
+        backgroundColor:"#E84949",
+        borderRadius:10,
+        height:45,
+        alignItems:"center",
+        justifyContent:"center",
+        alignSelf:'center'
     },
 });

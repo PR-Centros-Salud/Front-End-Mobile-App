@@ -1,16 +1,40 @@
 import React from "react";
 import { View, Alert, Text, TouchableOpacity, Image, TextInput, StyleSheet, ScrollView} from "react-native";
 import Svg, {Path} from 'react-native-svg';
+import MapView, { Marker } from 'react-native-maps';
+import { cancelLabAppointmentApi } from "./api/appointments";
+import { ActivityIndicator } from 'react-native';
 
-const FindScreen = ({navigation}) => {
+
+const FindScreen = ({route, navigation}) => {
+    const {appointment} = route.params;
+    const [loading, setLoading] = React.useState(false);
+
+    const [origin, setOrigin] = React.useState({
+        latitude: appointment?.institution?.latitude,
+        longitude: appointment?.institution?.longitude,
+    });
     const cancelAlert = () =>
     Alert.alert(
-      "Cancelar Laboratorio",
-      "Esta seguro que quiere cancelar?",
+      "Cancelar Cita",
+      "Esta seguro que quiere cancelar su cita?",
       [
         {
           text: "Si",
-          onPress: () => console.log("Si Pressed"),
+            onPress: () => {
+                (async () => {
+                    setLoading(true);
+                    const response = await cancelLabAppointmentApi(appointment.id);
+
+                    if (response?.status == 200) { 
+                        alert('Laboratorio cancelado con exito');
+                        navigation.navigate('DashBoard');
+                    } else {
+                        alert('Error al cancelar el laboratorio');
+                    }
+                    setLoading(false);
+                })()
+          },
           style: "cancel"
         },
         { text: "No", onPress: () => console.log("No Pressed") }
@@ -18,137 +42,230 @@ const FindScreen = ({navigation}) => {
     );
     return(
         <View style={styles.mainContainer}>
+            {loading && <ActivityIndicator size="large" color="#E84949" />}
+            {!loading && (
+                <>
+                    <ScrollView style={styles.scrollView}>
+                        <View style={styles.doctorDetailContainer}>
+                            
+                            <View style={styles.subTitle1}>
+                                <Text style={styles.subTitleText}>
+                                    Información del Doctor:
+                                </Text>
+                            </View>
+                            <View style={styles.separator}></View>
 
-            <View style={styles.doctorDetailContainer}>
-                <View style={styles.subTitle1}>
-                    <Text style={styles.subTitleText}>
-                        Información del Doctor:
-                    </Text>
-                </View>
-                <View style={styles.separator}></View>
+                            <View style={styles.docInfoContainer}>
+                                <View style={styles.docPicture}>
+                                    <Image
+                                        source={require('../assets/userPictures/lady.png')}
+                                        resizeMode='contain'
+                                        style={styles.doctorImage}
+                                    />
+                                </View>
+                                <View style={styles.docInfoTextContainer}>
+                                    <Text style={styles.docInfoText}>
+                                        Doctor:
+                                    </Text>
+                                    <Text style={styles.docInfoText2}> 
+                                        {appointment?.medical_personal?.first_name} {appointment?.medical_personal?.last_name} {appointment?.medical_personal?.second_last_name ? appointment?.medical_personal?.second_last_name : ''}
+                                    </Text>
 
-                <View style={styles.docInfoContainer}>
-                    <View style={styles.docPicture}>
-                        <Image
-                            source={require('../assets/userPictures/lady.png')}
-                            resizeMode='contain'
-                            style={styles.doctorImage}
-                        />
-                    </View>
-                    <View style={styles.docInfoTextContainer}>
-                        <Text style={styles.docInfoText}>
-                            Doctor:
-                        </Text>
-                        <Text style={styles.docInfoText2}>
-                            Dr. Abdel Garcia
-                        </Text>
+                                    <Text style={styles.docInfoText}>
+                                        Especialidad:
+                                    </Text>
+                                    <Text style={styles.docInfoText2}>
+                                         {appointment?.medical_personal?.contract[0]?.role}
+                                    </Text>
 
-                        <Text style={styles.docInfoText}>
-                            Especialidad:
-                        </Text>
-                        <Text style={styles.docInfoText2}>
-                            Cardiología
-                        </Text>
+                                </View>
+                            </View>
+                        </View>
 
-                    </View>
-                </View>
-            </View>
+                        <View style={styles.doctorDetailContainer}>
+                            <View style={styles.subTitle1}>
+                                <Text style={styles.subTitleText}>
+                                    Información de la Cita:
+                                </Text>
+                            </View>
+                            <View style={styles.separator}></View>
 
-            <View style={styles.doctorDetailContainer}>
-                <View style={styles.subTitle1}>
-                    <Text style={styles.subTitleText}>
-                        Información de la Cita:
-                    </Text>
-                </View>
-                <View style={styles.separator}></View>
+                            <View style={styles.docInfoContainer}>
+                                
+                                <View style={styles.appInfo}>
+                                
+                                <View style={styles.docInfoContainer}>
+                                    <Image
+                                        source={require('../assets/Icons/calendarIcon.png')}
+                                        resizeMode='contain'
+                                        style={styles.iconImage}
+                                    />
+                                    <View style={styles.docInfoTextContainer2}>
+                                        
+                                        <Text style={styles.docInfoText}>
+                                            Fecha:
+                                        </Text>
+                                        <Text style={styles.docInfoText2}>
+                                            {appointment?.programmed_date}
+                                        </Text>
+                                            {appointment?.status == 4 && (
+                                                <>
+                                                    <Text style={styles.docInfoText}>
+                                                    Fecha de entrega:
+                                                </Text>
+                                                <Text style={styles.docInfoText2}>
+                                                    {appointment?.laboratory_delivery_date}
+                                                </Text>
+                                            </>
+                                        )}
+                                        
 
-                <View style={styles.docInfoContainer}>
+                                    </View>
+                                </View>
+                                    
+
+                                </View>
+                                
+                                <View style={styles.appInfo}>
+                                    <Image
+                                        source={require('../assets/Icons/location.png')}
+                                        resizeMode='contain'
+                                        style={styles.iconImage}
+                                    />
+
+                                    <View style={styles.docInfoTextContainer2}>
+                                        <View style={styles.docInfoTextContainer2}>
+                                            <Text style={styles.docInfoText}>
+                                                Ubicación:
+                                            </Text>
+                                            <Text style={styles.docInfoText2}>
+                                            {appointment.institution.name}
+                                            </Text>
+                                        </View>
+                                        <View style={styles.separator}></View>
+                                        <View style={styles.docInfoTextContainer2}>
+                                            <Text style={styles.docInfoText}>
+                                                Teléfono:
+                                            </Text>
+                                            <Text style={styles.docInfoText2}>
+                                            {appointment.institution.phone}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+
+                            <View style={styles.docInfoContainer}>
+                                
+                                <View style={styles.appInfo}>
+                                    <Image
+                                        source={require('../assets/Icons/calendarIcon.png')}
+                                        resizeMode='contain'
+                                        style={styles.iconImage}
+                                    />
+
+                                    <View style={styles.docInfoContainer}>
+                                        <View style={styles.docInfoTextContainer2}>
+                                            <Text style={styles.docInfoText}>
+                                                Hora Inicial:
+                                            </Text>
+                                            <Text style={styles.docInfoText2}>
+                                            {appointment.schedule_day_appointment.start_time}
+                                            </Text>
+                                            
+                                        </View>
+                                        <View style={styles.verticalSeparator}></View>
+                                        <View style={styles.docInfoTextContainer2}>
+                                            <Text style={styles.docInfoText}>
+                                                Hora Final:
+                                            </Text>
+                                            <Text style={styles.docInfoText2}>
+                                                {appointment.schedule_day_appointment.end_time}                                            </Text>
+                                            
+                                        </View>
+
+                                    </View>
+
+                                </View>
+                            </View>
+
+                        </View>
+                        <View style={styles.doctorDetailContainer}>
+                            <View style={styles.separator}>
+                            </View>
+                            <View style={styles.doctorDetailContainer}>
+                                <Text style={styles.docInfoText}>
+                                    Sala de consulta:
+                                </Text>
+                                <Text style={styles.docInfoText2}>
+                                {`${appointment?.room.room_block ? `Bloque ${appointment?.room.room_block} ` : ''} ${appointment?.room.room_floor ? `Piso ${appointment?.room.room_floor} ` : ''} ${`#${appointment?.room.room_number}`}`}
+                                </Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.doctorDetailContainer}>
+                            {appointment.status == 4 && (
+                                <>
+                                <View style={styles.separator}>
+                                    </View>
+                                    
+                                    <View style={styles.subTitle1}>
+                                        <Text style={styles.subTitleText}>
+                                            Observaciones:
+                                        </Text>
+                                    </View>
+                                    <View style={styles.doctorRecipeContainer}>
+                                        <View style={styles.docInfoContainer}>
+                                        <Text style={styles.medicRecipeText}>
+                                            {appointment?.laboratory_results_resume ? appointment?.laboratory_results_resume : 'No hay observaciones'}
+                                        </Text>
+                                    </View>
+                                    </View>
+                                </>
+                            )}
+
+                            <View style={styles.docInfoTextContainer}>
+                                
+                            
+                                <Text style={styles.subTitleText}>
+                                    Ubicacion del centro medico:
+                                </Text>
+                                <View style={styles.mapContainer}>
+                                    
+                                    
+                                    <MapView style={styles.map}
+                                        initialRegion={{
+                                            latitude: origin.latitude,
+                                            longitude: origin.longitude,
+                                            latitudeDelta: 0.0922,
+                                            longitudeDelta: 0.0421,
+                                        }}
+                                    > 
+                                        <Marker
+                                        
+                                        coordinate={origin}
+                                        onDragEnd={(direction) => setOrigin(direction.nativeEvent.coordinate)}
+                                    />
+                                    
+                                    </MapView>
+                                </View>
+                            </View>
+                            
+                        </View>
+                    {(appointment?.status == 1 || appointment?.status == 2) && (new Date(appointment.programmed_date) > new Date()) && (
+                        <View style={styles.buttonContainer}>
+                                <TouchableOpacity style={styles.button} onPress={cancelAlert}>
+                                    <Text style={styles.buttonText}>Cancelar</Text>
+                                </TouchableOpacity>
+                        </View>
+                    )}
                     
-                    <View style={styles.appInfo}>
-                        <Image
-                            source={require('../assets/Icons/calendarIcon.png')}
-                            resizeMode='contain'
-                            style={styles.iconImage}
-                        />
-
-                        <View style={styles.docInfoTextContainer2}>
-                            <Text style={styles.docInfoText}>
-                                Fecha:
-                            </Text>
-                            <Text style={styles.docInfoText2}>
-                                13/12/2022
-                            </Text>
-
-
-                        </View>
-
-                    </View>
-                    
-                    <View style={styles.appInfo}>
-                        <Image
-                            source={require('../assets/Icons/location.png')}
-                            resizeMode='contain'
-                            style={styles.iconImage}
-                        />
-
-                        <View style={styles.docInfoTextContainer2}>
-                            <Text style={styles.docInfoText}>
-                                Ubicación:
-                            </Text>
-                            <Text style={styles.docInfoText2}>
-                                Hospital del Norte
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-
-                <View style={styles.docInfoContainer}>
-                    
-                    <View style={styles.appInfo}>
-                        <Image
-                            source={require('../assets/Icons/calendarIcon.png')}
-                            resizeMode='contain'
-                            style={styles.iconImage}
-                        />
-
-                        <View style={styles.docInfoTextContainer2}>
-                            <Text style={styles.docInfoText}>
-                                Hora:
-                            </Text>
-                            <Text style={styles.docInfoText2}>
-                                11:30 AM
-                            </Text>
-
-                        </View>
-                    </View>
-
-                    <View style={styles.appInfo}>
-                        <Image
-                            source={require('../assets/Icons/syringe.png')}
-                            resizeMode='contain'
-                            style={styles.iconImage}
-                        />
-
-                        <View style={styles.docInfoTextContainer2}>
-                            <Text style={styles.docInfoText}>
-                                Prueba:
-                            </Text>
-                            <Text style={styles.docInfoText2}>
-                                Prueba de Sangre
-                            </Text>
-
-                        </View>
-                    </View>
-                </View>
-
-            </View>
-
+                    </ScrollView>
             
-            <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={cancelAlert}>
-                        <Text style={styles.buttonText}>Cancelar</Text>
-                    </TouchableOpacity>
-                </View>
+        
+                </>
+                )}
+            
         </View>
     );
 }
@@ -159,9 +276,45 @@ const styles = StyleSheet.create({
         margin:'auto',
         width:'100%',
         height:'100%',
-        padding:20,
+        padding: 20,
+        paddingBottom:70,
         alignItems:'center',
         backgroundColor:'#121418'
+    },
+
+
+
+    scrollView:{
+        width:'100%',
+        height:'120%',
+        backgroundColor:'#121418',
+        padding:20,
+        
+    },
+
+    mapContainer:{
+        width:'100%',
+        height:'auto',
+        padding:10,
+        alignItems:'center',
+        backgroundColor:'transparent',
+        borderWidth:1,
+        borderColor:'#fff',
+        borderRadius:10,
+        marginTop:10,
+    },
+    map:{
+        width: '100%',
+        height: 380,
+    },
+   
+    verticalSeparator:{
+        height:'auto',
+        width:1,
+        borderWidth: 1,     
+        borderColor:'#7b7b7b',
+        marginLeft:10,
+        marginRight:10,
     },
     headerContainer:{
         width:'auto',
@@ -178,9 +331,24 @@ const styles = StyleSheet.create({
         width:'100%',
         marginTop:10,
     },
+    doctorRecipeContainer:{
+        width:'100%',
+        marginTop:10,
+        borderWidth:1,
+        borderColor:'#fff',
+        borderRadius:10,
+        padding:10,
+        
+    },
     subTitleText:{
         color:'#c7c7c7',
         fontSize:16,
+    },
+
+    medicRecipeText:{
+        color:'#c7c7c7',
+        fontSize:16,
+        marginBottom:10,
     },
     separator:{
         height:'auto',
@@ -212,7 +380,8 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     docInfoText:{
-        color:'#7b7b7b'
+        color:'#7b7b7b',
+        
     },
     docInfoText2:{
         color:'#FFF',
