@@ -177,17 +177,25 @@ const FindScreen = ({route, navigation}) => {
                         
                         {laboratoryService != 0 && (
                             <>
-                                <View style={styles.subTitleContainer}>
-                                <Text style={styles.subTitleText}>
-                                    Fecha
-                                </Text>
-                            </View>
+                                
 
                             <TouchableOpacity style={styles.buttonDate} onPress={showDatePicker}>
                                 <Text style={styles.buttonDateText}>
                                     Seleccione una fecha.
                                 </Text>
                             </TouchableOpacity>
+                            <View style={styles.subTextContainerMain}>
+                                <View style={styles.subTextContainer}>
+                                    <Text style={styles.subText}>
+                                        Fecha:
+                                    </Text>
+                                </View>
+                                <View style={styles.subTextContainer2}>
+                                    <Text style={styles.subText}>
+                                        {`${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`}
+                                    </Text>
+                                </View>
+                            </View>
                             <DateTimePickerModal
                                 isVisible={isDatePickerVisible}
                                 mode="date"
@@ -209,7 +217,7 @@ const FindScreen = ({route, navigation}) => {
                         )}
 
                         <View style={styles.scheduleOptionsContainer}>
-                            <ScrollView horizontal="true">
+                            <ScrollView horizontal="true" style={styles.scrollViewContainer}>
                             <View>
                             {availableTimes != null ? (
                                 <>
@@ -324,14 +332,30 @@ const styles = StyleSheet.create({
         width:'100%',
         marginTop:20,
     },
-    subTextContainer:{
+    subTextContainerMain:{
         width:'100%',
         marginBottom:10,
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
+        flexDirection:'row'
+    },
+    subTextContainer:{
+        width:'25%',
+        marginBottom:10,
+        backgroundColor:'transparent',
+    },
+    subTextContainer2:{
+        width:'75%',
+        marginBottom:10,
+        backgroundColor:'transparent',
     },
     subText:{
-        color:'white',
-        fontSize:17
+        color:'#fff',
+        fontSize:18,
+        fontWeight:'bold',
+    },
+    scrollVHorizontal:{
+        width:'100%',
+        backgroundColor:'transparent'
     },
     optionContainer:{
         flexDirection:'row',
